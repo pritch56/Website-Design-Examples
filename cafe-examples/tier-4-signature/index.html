@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Luna Café — A café, a kitchen, late suppers · Exeter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ivory: #f5f1e8;
+    --ivory-deep: #ebe5d3;
+    --sage: #6a7656;
+    --sage-deep: #4e5840;
+    --sage-pale: #c5cab6;
+    --terra: #b56340;
+    --ink: #1f2218;
+    --ink-soft: #4f5446;
+    --rule: #b8b29b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ivory);
+    color: var(--ink);
+    font-family: 'EB Garamond', serif;
+    font-size: 18px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.18 0 0 0 0 0.12 0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* ===== Top tag ===== */
+  .top-bar {
+    background: var(--ink);
+    color: var(--ivory);
+    padding: 8px 32px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-align: center;
+    position: relative; z-index: 50;
+  }
+  .top-bar a { color: var(--sage-pale); text-decoration: none; border-bottom: 1px solid var(--sage); }
+
+  /* ===== Nav ===== */
+  .nav {
+    position: sticky; top: 0; z-index: 49;
+    background: var(--ivory);
+    border-bottom: 1px solid var(--rule);
+    padding: 22px 48px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+  }
+  .nav .left, .nav .right {
+    display: flex; gap: 28px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .nav .right { justify-content: flex-end; }
+  .nav a { color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+  .nav a:hover { color: var(--terra); }
+  .nav .mark {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    text-align: center;
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+  .nav .mark .small {
+    display: block;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--terra);
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+  }
+  .pill-btn {
+    background: var(--ink);
+    color: var(--ivory);
+    padding: 8px 16px;
+    border-radius: 100px;
+    border: 1px solid var(--ink);
+    transition: all 0.2s;
+  }
+  .pill-btn:hover { background: var(--terra); border-color: var(--terra); color: var(--ivory); }
+
+  /* ===== Masthead ===== */
+  .masthead {
+    position: relative; z-index: 2;
+    padding: 64px 48px 80px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 40px;
+  }
+  .masthead-meta .center { text-align: center; }
+  .masthead-meta .right { text-align: right; }
+  .masthead-meta strong { color: var(--terra); font-weight: 500; }
+  .masthead h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(80px, 14vw, 220px);
+    line-height: 0.85;
+    letter-spacing: -0.025em;
+    margin-bottom: 36px;
+    text-align: center;
+  }
+  .masthead h1 em {
+    font-style: italic;
+    color: var(--terra);
+  }
+  .masthead-lead {
+    max-width: 60ch;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .masthead-lead::before, .masthead-lead::after { content: " — "; color: var(--terra); }
+
+  .feature-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin: 60px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .feature-strip > div {
+    padding: 24px;
+    border-right: 1px solid var(--rule);
+    text-align: center;
+  }
+  .feature-strip > div:last-child { border-right: none; }
+  .feature-strip .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 40px;
+    line-height: 1;
+    color: var(--terra);
+    margin-bottom: 4px;
+  }
+  .feature-strip .num em { font-style: italic; }
+  .feature-strip .lbl {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ===== Editorial split ===== */
+  .editorial {
+    padding: 100px 48px;
+    border-bottom: 1px solid var(--rule);
+    position: relative; z-index: 2;
+  }
+  .ed-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .ed-image {
+    position: relative;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+  .ed-image svg { width: 100%; height: 100%; }
+  .ed-tag {
+    position: absolute;
+    top: 24px; left: 24px;
+    background: var(--ivory);
+    padding: 6px 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--terra);
+    z-index: 2;
+  }
+  .ed-text .label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 14px;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .ed-text .label::before {
+    content: ""; width: 30px; height: 1px; background: var(--terra);
+  }
+  .ed-text h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .ed-text h2 em { font-style: italic; color: var(--terra); }
+  .ed-text p {
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+  .ed-text p:first-of-type::first-letter {
+    font-family: 'DM Serif Display', serif;
+    font-size: 80px;
+    line-height: 0.8;
+    float: left;
+    padding: 8px 14px 0 0;
+    color: var(--terra);
+  }
+  .ed-quote {
+    margin-top: 28px;
+    padding: 24px 28px;
+    border-left: 3px solid var(--terra);
+    background: rgba(181,99,64,0.06);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink);
+  }
+  .ed-quote .byline {
+    display: block;
+    font-style: normal;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 12px;
+  }
+
+  /* ===== Menu — collection style ===== */
+  .menu {
+    padding: 100px 48px;
+    background: var(--ivory-deep);
+    border-bottom: 1px solid var(--rule);
+    position: relative; z-index: 2;
+  }
+  .menu-head {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .menu-head .label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 16px;
+  }
+  .menu-head .label::before, .menu-head .label::after { content: ""; width: 30px; height: 1px; background: var(--terra); }
+  .menu-head h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 1;
+  }
+  .menu-head h2 em { font-style: italic; color: var(--terra); }
+  .menu-head .sub {
+    margin-top: 16px;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 19px;
+  }
+
+  .menu-collection {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .menu-card {
+    background: var(--ivory);
+    border: 1px solid var(--rule);
+    padding: 36px 28px;
+    position: relative;
+    transition: all 0.3s cubic-bezier(.2,.8,.2,1);
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .menu-card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px rgba(31,34,24,0.1); }
+  .menu-card .season {
+    position: absolute;
+    top: 0; right: 0;
+    background: var(--terra);
+    color: var(--ivory);
+    padding: 4px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .menu-card .season.spring { background: var(--sage); }
+  .menu-card .season.summer { background: var(--terra); }
+  .menu-card .icon {
+    width: 60px; height: 60px;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 24px;
+  }
+  .menu-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .menu-card h3 em { font-style: italic; color: var(--terra); }
+  .menu-card .french {
+    font-style: italic;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+  .menu-card .desc {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+  .menu-card .foot {
+    display: flex; justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+    align-items: center;
+  }
+  .menu-card .price {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--ink);
+  }
+  .menu-card .price em { color: var(--terra); font-style: italic; }
+  .menu-card .pairing {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ===== Booking + Private hire ===== */
+  .reserve {
+    padding: 100px 48px;
+    background: var(--ink);
+    color: var(--ivory);
+    position: relative; z-index: 2;
+    border-bottom: 1px solid var(--rule);
+  }
+  .reserve-tabs {
+    display: flex;
+    gap: 0;
+    max-width: 600px;
+    margin: 0 auto 0;
+    background: rgba(245,241,232,0.08);
+    border-radius: 100px;
+    padding: 6px;
+  }
+  .reserve-tab {
+    flex: 1;
+    padding: 14px 20px;
+    border: none;
+    background: transparent;
+    color: var(--ivory);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 100px;
+    transition: all 0.25s;
+  }
+  .reserve-tab.active { background: var(--terra); color: var(--ivory); }
+  .reserve-tab:hover:not(.active) { color: var(--sage-pale); }
+  .reserve-head {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .reserve-head .label {
+    color: var(--sage-pale);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .reserve-head h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.95;
+    margin-bottom: 16px;
+  }
+  .reserve-head h2 em { font-style: italic; color: var(--terra); }
+  .reserve-head .sub {
+    color: rgba(245,241,232,0.7);
+    font-size: 18px;
+    font-style: italic;
+    margin-bottom: 32px;
+  }
+
+  .reserve-panel {
+    max-width: 720px;
+    margin: 40px auto 0;
+    display: none;
+  }
+  .reserve-panel.active { display: block; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+  .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+  .form-row.full { grid-template-columns: 1fr; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage-pale);
+  }
+  .field input, .field select, .field textarea {
+    background: rgba(245,241,232,0.06);
+    border: 1px solid rgba(245,241,232,0.18);
+    color: var(--ivory);
+    padding: 14px 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 17px;
+    border-radius: 2px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--terra);
+    background: rgba(245,241,232,0.1);
+  }
+  .field textarea { min-height: 90px; resize: vertical; }
+  .field select option { background: var(--ink); color: var(--ivory); }
+
+  .pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pill {
+    flex: 1;
+    min-width: 44px;
+    padding: 12px 0;
+    background: rgba(245,241,232,0.06);
+    border: 1px solid rgba(245,241,232,0.18);
+    color: var(--ivory);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-radius: 2px;
+  }
+  .pill:hover { border-color: var(--terra); }
+  .pill.active { background: var(--terra); border-color: var(--terra); color: var(--ivory); font-weight: 500; }
+
+  .slot-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  .slot-grid .pill { font-size: 12px; padding: 10px 0; }
+  .slot-grid .pill:disabled { opacity: 0.3; cursor: not-allowed; text-decoration: line-through; }
+
+  .submit-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .submit-row .summary {
+    font-style: italic;
+    color: var(--sage-pale);
+    font-size: 15px;
+  }
+  .submit-row .summary strong { color: var(--terra); font-style: normal; font-weight: 500; }
+
+  button.cta {
+    background: var(--terra);
+    color: var(--ivory);
+    border: none;
+    padding: 16px 36px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  button.cta:hover { background: var(--ivory); color: var(--ink); transform: translateY(-2px); }
+
+  /* ===== Membership ===== */
+  .members {
+    padding: 100px 48px;
+    background: linear-gradient(180deg, var(--ivory), var(--ivory-deep));
+    border-bottom: 1px solid var(--rule);
+    position: relative; z-index: 2;
+  }
+  .members-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .members-grid .label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 14px;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .members-grid .label::before { content: ""; width: 30px; height: 1px; background: var(--terra); }
+  .members-grid h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(40px, 6vw, 84px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .members-grid h2 em { font-style: italic; color: var(--terra); }
+  .members-grid p {
+    font-size: 19px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .member-benefits {
+    list-style: none;
+    margin: 24px 0;
+  }
+  .member-benefits li {
+    display: flex; align-items: baseline; gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--rule);
+    font-size: 17px;
+  }
+  .member-benefits li::before {
+    content: "✦";
+    color: var(--terra);
+    font-size: 14px;
+  }
+
+  /* Loyalty card visual */
+  .member-card-wrap {
+    perspective: 1200px;
+  }
+  .member-card {
+    aspect-ratio: 1.55/1;
+    max-width: 500px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, var(--sage-deep), var(--sage));
+    color: var(--ivory);
+    border-radius: 12px;
+    padding: 28px 32px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+    transform: rotateX(8deg) rotateY(-6deg);
+    transition: transform 0.4s ease;
+    gap: 14px;
+  }
+  .member-card:hover { transform: rotateX(0deg) rotateY(0deg); }
+  .member-card::before {
+    content: "";
+    position: absolute; inset: 12px;
+    border: 1px solid rgba(245,241,232,0.3);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+  .member-card .crown {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1;
+  }
+  .member-card .crown em { color: var(--terra); font-style: italic; }
+  .member-card .tier {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(245,241,232,0.75);
+    margin-top: 6px;
+  }
+  .member-card .stamp-row {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+    padding: 4px 0;
+  }
+  .member-card .stamp {
+    aspect-ratio: 1;
+    border: 1px dashed rgba(245,241,232,0.45);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: rgba(245,241,232,0.4);
+    background: rgba(245,241,232,0.04);
+    transition: all 0.3s ease;
+  }
+  .member-card .stamp.filled {
+    background: var(--terra);
+    border: 1px solid var(--terra);
+    border-style: solid;
+    color: var(--ivory);
+    box-shadow: inset 0 0 0 2px rgba(245,241,232,0.25), 0 2px 4px rgba(0,0,0,0.15);
+    transform: rotate(-6deg);
+  }
+  .member-card .stamp.filled:nth-child(2) { transform: rotate(4deg); }
+  .member-card .stamp.filled:nth-child(3) { transform: rotate(-3deg); }
+  .member-card .stamp.filled:nth-child(4) { transform: rotate(7deg); }
+  .member-card .stamp.free {
+    background: rgba(245,241,232,0.95);
+    color: var(--sage-deep);
+    border: 1px solid var(--ivory);
+    border-style: solid;
+    font-family: 'Inter', sans-serif;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+  .member-card .holder {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+  }
+  .member-card .id-row {
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .member-card .id-row .id {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .member-card .id-row .since {
+    text-align: right;
+  }
+  .member-card .id-row .since-lbl {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(245,241,232,0.6);
+  }
+  .member-card .id-row .since-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-style: italic;
+  }
+
+  /* ===== Journal ===== */
+  .journal {
+    padding: 100px 48px;
+    border-bottom: 1px solid var(--rule);
+    position: relative; z-index: 2;
+  }
+  .journal-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    gap: 60px;
+    margin-bottom: 60px;
+  }
+  .journal-head .label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 14px;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .journal-head .label::before { content: ""; width: 30px; height: 1px; background: var(--terra); }
+  .journal-head h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(40px, 6vw, 84px);
+    line-height: 0.95;
+  }
+  .journal-head h2 em { font-style: italic; color: var(--terra); }
+  .journal-head p {
+    font-size: 18px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .journal-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .article {
+    background: var(--ivory-deep);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+  }
+  .article:hover { transform: translateY(-4px); }
+  .article:first-child { grid-row: span 2; }
+  .article .photo {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+  .article:first-child .photo { aspect-ratio: 4/3.5; }
+  .article .photo svg { width: 100%; height: 100%; transition: transform 0.6s ease; }
+  .article:hover .photo svg { transform: scale(1.05); }
+  .article-body { padding: 24px 28px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+  .article .cat {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 12px;
+  }
+  .article h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .article:first-child h3 { font-size: 40px; }
+  .article h3 em { font-style: italic; }
+  .article p {
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.55;
+    margin-bottom: 16px;
+  }
+  .article .meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ===== Newsletter ===== */
+  .newsletter {
+    padding: 100px 48px;
+    text-align: center;
+    background: var(--sage);
+    color: var(--ivory);
+    border-bottom: 1px solid var(--rule);
+    position: relative; z-index: 2;
+  }
+  .newsletter h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(40px, 7vw, 96px);
+    line-height: 0.95;
+    margin-bottom: 16px;
+  }
+  .newsletter h2 em { font-style: italic; color: var(--ivory-deep); }
+  .newsletter p {
+    max-width: 50ch;
+    margin: 0 auto 32px;
+    font-size: 19px;
+    font-style: italic;
+    color: rgba(245,241,232,0.85);
+  }
+  .newsletter form {
+    display: flex; gap: 8px;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .newsletter input {
+    flex: 1;
+    background: rgba(245,241,232,0.1);
+    border: 1px solid rgba(245,241,232,0.3);
+    padding: 16px 20px;
+    color: var(--ivory);
+    font-family: 'EB Garamond', serif;
+    font-size: 17px;
+    border-radius: 100px 0 0 100px;
+  }
+  .newsletter input::placeholder { color: rgba(245,241,232,0.5); }
+  .newsletter input:focus { outline: none; border-color: var(--ivory); background: rgba(245,241,232,0.18); }
+  .newsletter button {
+    background: var(--ink);
+    color: var(--ivory);
+    border: none;
+    padding: 0 32px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 0 100px 100px 0;
+    transition: background 0.2s;
+  }
+  .newsletter button:hover { background: var(--terra); }
+  .newsletter .also {
+    margin-top: 32px;
+    font-size: 14px;
+    font-style: italic;
+    opacity: 0.7;
+  }
+
+  /* ===== Visit ===== */
+  .visit {
+    padding: 100px 48px;
+    background: var(--ivory-deep);
+    position: relative; z-index: 2;
+  }
+  .visit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .visit-block h4 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    margin-bottom: 16px;
+  }
+  .visit-block h4 em { font-style: italic; color: var(--terra); }
+  .visit-block p, .visit-block ul {
+    font-size: 16px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .visit-block .hours-li {
+    display: flex; justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--rule);
+    list-style: none;
+  }
+  .visit-block .hours-li.today { color: var(--terra); }
+  .visit-block .hours-li .day {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .visit-block .hours-li .time { font-size: 14px; }
+
+  footer {
+    background: var(--ink);
+    color: var(--ivory);
+    padding: 80px 48px 32px;
+    position: relative; z-index: 2;
+  }
+  .foot-mast {
+    text-align: center;
+    padding-bottom: 60px;
+    border-bottom: 1px solid rgba(245,241,232,0.15);
+    margin-bottom: 48px;
+  }
+  .foot-mast h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(48px, 8vw, 120px);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+  }
+  .foot-mast h3 em { font-style: italic; color: var(--terra); }
+  .foot-mast .est {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    color: var(--sage-pale);
+    font-size: 17px;
+    margin-top: 12px;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto 48px;
+  }
+  footer h5 {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 16px;
+  }
+  footer ul { list-style: none; }
+  footer ul li { padding: 5px 0; font-size: 14px; color: rgba(245,241,232,0.7); }
+  footer ul li a { color: inherit; text-decoration: none; transition: color 0.2s; }
+  footer ul li a:hover { color: var(--terra); }
+  footer .copy {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(245,241,232,0.15);
+    display: flex; justify-content: space-between;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,241,232,0.5);
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--ink);
+    color: var(--ivory);
+    padding: 16px 28px;
+    border-radius: 100px;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    z-index: 100;
+    opacity: 0;
+    transition: all 0.45s cubic-bezier(.2,.8,.2,1);
+    border: 1px solid var(--terra);
+    text-align: center;
+    max-width: 90%;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast strong { color: var(--terra); font-style: normal; font-weight: 500; }
+
+  @media (max-width: 900px) {
+    .top-bar { font-size: 9px; padding: 6px 16px; }
+    .nav { grid-template-columns: auto 1fr auto; padding: 14px 16px; gap: 12px; }
+    .nav .left, .nav .right { display: none; }
+    .masthead { padding: 40px 20px 56px; }
+    .masthead-meta { grid-template-columns: 1fr; gap: 4px; padding: 12px 16px; text-align: center; }
+    .masthead-meta .right, .masthead-meta .center { text-align: center; }
+    .feature-strip { grid-template-columns: 1fr 1fr; }
+    .feature-strip > div { border-bottom: 1px solid var(--rule); }
+    .feature-strip > div:nth-child(2n) { border-right: none; }
+    .editorial, .menu, .reserve, .members, .journal, .newsletter, .visit { padding: 64px 20px; }
+    .ed-grid, .members-grid { grid-template-columns: 1fr; gap: 48px; }
+    .menu-collection { grid-template-columns: 1fr; }
+    .journal-grid { grid-template-columns: 1fr; }
+    .article:first-child { grid-row: span 1; }
+    .article:first-child h3 { font-size: 30px; }
+    .form-row, .form-row.three { grid-template-columns: 1fr; }
+    .slot-grid { grid-template-columns: repeat(4, 1fr); }
+    .visit-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+    .journal-head { grid-template-columns: 1fr; gap: 24px; }
+    .newsletter form { flex-direction: column; max-width: 320px; }
+    .newsletter input { border-radius: 100px; text-align: center; }
+    .newsletter button { border-radius: 100px; padding: 16px; }
+  }
+</style>
+</head>
+<body>
+  <div class="top-bar">
+    Now booking · <a href="#reserve">Summer tasting menu, 14—28 June →</a>
+  </div>
+
+  <nav class="nav">
+    <div class="left">
+      <a href="#menu">Menu</a>
+      <a href="#journal">Journal</a>
+      <a href="#card">The Card</a>
+    </div>
+    <div class="mark">
+      Luna <em style="font-style: italic; color: var(--terra);">Café</em>
+      <span class="small">Est. MMXVI · Exeter</span>
+    </div>
+    <div class="right">
+      <a href="#visit">Visit</a>
+      <a href="#reserve" class="pill-btn">Reserve</a>
+    </div>
+  </nav>
+
+  <header class="masthead">
+    <div class="masthead-meta">
+      <div>Vol. IX · Issue 02</div>
+      <div class="center">A café · A kitchen · Late suppers</div>
+      <div class="right">Spring/Summer · MMXXVI</div>
+    </div>
+    <h1>A café for<br/>slow mornings<br/>&amp; <em>moonlit</em><br/>nights.</h1>
+    <p class="masthead-lead">
+      A café in a former bookshop on Gandy Street, Exeter. Espresso in the
+      morning, seasonal plates at lunch, candle-lit suppers &amp; natural
+      wine from five. Open till midnight, six days a week.
+    </p>
+    <div class="feature-strip">
+      <div><div class="num"><em>IX</em></div><div class="lbl">years on Gandy St</div></div>
+      <div><div class="num">42</div><div class="lbl">seats inside</div></div>
+      <div><div class="num">1,400</div><div class="lbl">card-holders</div></div>
+      <div><div class="num"><em>☾</em></div><div class="lbl">open till midnight</div></div>
+    </div>
+  </header>
+
+  <section class="editorial">
+    <div class="ed-grid">
+      <div class="ed-image">
+        <span class="ed-tag">No. 1 / The Room</span>
+        <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="warmlit" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ebe5d3"/>
+              <stop offset="100%" stop-color="#c5cab6"/>
+            </linearGradient>
+          </defs>
+          <rect width="400" height="500" fill="url(#warmlit)"/>
+          <!-- floor -->
+          <rect y="380" width="400" height="120" fill="#6a7656"/>
+          <!-- window arches -->
+          <path d="M30 40 Q30 0 90 0 L90 280 L30 280 Z" fill="#f5f1e8" stroke="#1f2218" stroke-width="2"/>
+          <path d="M105 40 Q105 0 165 0 L165 280 L105 280 Z" fill="#f5f1e8" stroke="#1f2218" stroke-width="2"/>
+          <line x1="60" y1="20" x2="60" y2="280" stroke="#1f2218" stroke-width="1" opacity="0.4"/>
+          <line x1="135" y1="20" x2="135" y2="280" stroke="#1f2218" stroke-width="1" opacity="0.4"/>
+          <line x1="30" y1="150" x2="90" y2="150" stroke="#1f2218" stroke-width="1" opacity="0.4"/>
+          <line x1="105" y1="150" x2="165" y2="150" stroke="#1f2218" stroke-width="1" opacity="0.4"/>
+          <!-- bistro table -->
+          <ellipse cx="280" cy="340" rx="80" ry="20" fill="#4e5840"/>
+          <ellipse cx="280" cy="330" rx="75" ry="15" fill="#ebe5d3"/>
+          <rect x="275" y="340" width="10" height="60" fill="#1f2218"/>
+          <ellipse cx="280" cy="402" rx="40" ry="8" fill="#1f2218"/>
+          <!-- coffee cup on table -->
+          <ellipse cx="260" cy="324" rx="14" ry="4" fill="#1f2218"/>
+          <rect x="246" y="320" width="28" height="14" rx="4" fill="#f5f1e8" stroke="#1f2218" stroke-width="1.5"/>
+          <ellipse cx="260" cy="322" rx="10" ry="2" fill="#4f4030"/>
+          <!-- chair silhouette -->
+          <rect x="260" y="380" width="6" height="60" fill="#1f2218"/>
+          <rect x="294" y="380" width="6" height="60" fill="#1f2218"/>
+          <rect x="256" y="380" width="48" height="6" fill="#1f2218"/>
+          <rect x="256" y="350" width="6" height="30" fill="#1f2218"/>
+          <rect x="298" y="350" width="6" height="30" fill="#1f2218"/>
+          <!-- plant -->
+          <rect x="200" y="320" width="36" height="50" fill="#b56340"/>
+          <path d="M218 320 Q200 270 190 230 Q210 250 218 290 Q230 250 246 230 Q236 270 218 320" fill="#6a7656"/>
+          <!-- frame on wall -->
+          <rect x="220" y="80" width="80" height="100" fill="#f5f1e8" stroke="#1f2218" stroke-width="2"/>
+          <rect x="232" y="92" width="56" height="76" fill="#b56340"/>
+          <ellipse cx="260" cy="130" rx="18" ry="14" fill="#1f2218"/>
+        </svg>
+      </div>
+      <div class="ed-text">
+        <div class="label">The story</div>
+        <h2>A bookshop's <em>second life,</em> in three courses.</h2>
+        <p>
+          We bought the lease on Gandy Street in 2016, the year Daniel's
+          grandmother's bookshop closed. The mahogany shelves are still on the
+          walls. The brass kettle she made tea in still lives behind the bar.
+          Everything else, we built around her — the marble counter, the
+          long banquette, the small open kitchen where Anouk cooks her menu
+          of the day.
+        </p>
+        <p>
+          Three rhythms in one room. Coffee until eleven, lunch until three,
+          candle-lit suppers from five. We close on Mondays, the staff eat
+          together on Sundays. Everything else, we make it up as we go.
+        </p>
+        <div class="ed-quote">
+          "It still feels like a room I'd want to spend a Sunday in. That's
+          the only test we ever set ourselves."
+          <span class="byline">— Daniel &amp; Anouk, founders</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu" id="menu">
+    <div class="menu-head">
+      <div class="label">The collection</div>
+      <h2>This <em>season's</em><br/>kitchen.</h2>
+      <p class="sub">A small, restless menu. Changes every six weeks.</p>
+    </div>
+    <div class="menu-collection">
+      <div class="menu-card">
+        <span class="season spring">SPRING</span>
+        <div class="icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <ellipse cx="16" cy="20" rx="11" ry="4" fill="#b56340"/>
+            <path d="M16 6 Q12 12 16 18 Q20 12 16 6" fill="#6a7656"/>
+            <line x1="16" y1="6" x2="16" y2="18" stroke="#4e5840" stroke-width="1"/>
+          </svg>
+        </div>
+        <h3>Asparagus, <em>brown butter.</em></h3>
+        <div class="french">Asperges au beurre noisette</div>
+        <p class="desc">Wye Valley asparagus, just-set hen's egg, hazelnut beurre noisette, lemon zest, fennel pollen.</p>
+        <div class="foot">
+          <span class="price">£<em>14</em></span>
+          <span class="pairing">Pairs · Loire blanc</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <span class="season summer">SUMMER</span>
+        <div class="icon">
+          <svg width="32" height="32" viewBox="0 0 32 32">
+            <circle cx="16" cy="16" r="10" fill="#b56340"/>
+            <circle cx="13" cy="13" r="2" fill="#f5f1e8" opacity="0.6"/>
+          </svg>
+        </div>
+        <h3>Heritage <em>tomato</em> tarte fine.</h3>
+        <div class="french">Tarte fine aux tomates</div>
+        <p class="desc">Five varieties, slow-roasted, on rough puff. Marigold pesto, ricotta salata, basil oil.</p>
+        <div class="foot">
+          <span class="price">£<em>17</em></span>
+          <span class="pairing">Pairs · Provençal rosé</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <span class="season spring">SPRING</span>
+        <div class="icon">
+          <svg width="32" height="32" viewBox="0 0 32 32">
+            <ellipse cx="16" cy="18" rx="9" ry="6" fill="#6a7656"/>
+            <ellipse cx="16" cy="14" rx="9" ry="6" fill="#4e5840"/>
+          </svg>
+        </div>
+        <h3>Cornish <em>monkfish</em>, peas.</h3>
+        <div class="french">Lotte aux petits pois</div>
+        <p class="desc">Day-boat monkfish, English peas, broad beans, mint, white wine velouté, sourdough crouton.</p>
+        <div class="foot">
+          <span class="price">£<em>26</em></span>
+          <span class="pairing">Pairs · Burgundy blanc</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <span class="season summer">SUMMER</span>
+        <div class="icon">
+          <svg width="32" height="32" viewBox="0 0 32 32">
+            <ellipse cx="16" cy="20" rx="11" ry="5" fill="#4f4030"/>
+            <ellipse cx="16" cy="13" rx="8" ry="3" fill="#b56340"/>
+          </svg>
+        </div>
+        <h3>Hogget, <em>charred onion</em>, anchovy.</h3>
+        <div class="french">Agneau, oignon brûlé</div>
+        <p class="desc">36-month old lamb, charred Roscoff, anchovy butter, wild garlic capers, lamb-fat potatoes.</p>
+        <div class="foot">
+          <span class="price">£<em>28</em></span>
+          <span class="pairing">Pairs · Rhône rouge</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <span class="season spring">SPRING</span>
+        <div class="icon">
+          <svg width="32" height="32" viewBox="0 0 32 32">
+            <circle cx="16" cy="16" r="11" fill="#ebe5d3"/>
+            <circle cx="16" cy="16" r="6" fill="#b56340"/>
+          </svg>
+        </div>
+        <h3>Rhubarb, <em>brown sugar</em>, cream.</h3>
+        <div class="french">Rhubarbe rôtie</div>
+        <p class="desc">Yorkshire forced rhubarb, brown sugar shortbread, cardamom crème fraîche, candied lemon.</p>
+        <div class="foot">
+          <span class="price">£<em>10</em></span>
+          <span class="pairing">Pairs · Coteaux du Layon</span>
+        </div>
+      </div>
+      <div class="menu-card">
+        <span class="season summer">SUMMER</span>
+        <div class="icon">
+          <svg width="32" height="32" viewBox="0 0 32 32">
+            <rect x="6" y="10" width="20" height="14" fill="#4f4030"/>
+            <ellipse cx="16" cy="10" rx="10" ry="3" fill="#1f2218"/>
+            <ellipse cx="16" cy="10" rx="7" ry="1" fill="#b56340"/>
+          </svg>
+        </div>
+        <h3>Affogato, <em>olive oil</em>, salt.</h3>
+        <div class="french">Affogato au café</div>
+        <p class="desc">Fior di latte gelato, single-origin espresso pulled to order, Sicilian olive oil, sea salt flakes.</p>
+        <div class="foot">
+          <span class="price">£<em>9</em></span>
+          <span class="pairing">Pairs · Vin santo</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reserve" id="reserve">
+    <div class="reserve-head">
+      <div class="label">RESERVATIONS</div>
+      <h2>Save a <em>seat</em>,<br/>book the <em>room</em>,<br/>or hire the <em>whole house.</em></h2>
+      <p class="sub">Three ways to come in. Pick what suits.</p>
+    </div>
+
+    <div class="reserve-tabs">
+      <button class="reserve-tab active" data-tab="table">Table</button>
+      <button class="reserve-tab" data-tab="event">Events</button>
+      <button class="reserve-tab" data-tab="private">Private Hire</button>
+    </div>
+
+    <!-- Table booking -->
+    <form class="reserve-panel active" data-tab="table" onsubmit="event.preventDefault(); submitForm('table');">
+      <div class="form-row full">
+        <div class="field">
+          <label>Party size</label>
+          <div class="pills" id="party">
+            <button type="button" class="pill" data-size="1">1</button>
+            <button type="button" class="pill active" data-size="2">2</button>
+            <button type="button" class="pill" data-size="3">3</button>
+            <button type="button" class="pill" data-size="4">4</button>
+            <button type="button" class="pill" data-size="5">5</button>
+            <button type="button" class="pill" data-size="6">6</button>
+            <button type="button" class="pill" data-size="7">7</button>
+            <button type="button" class="pill" data-size="8">8+</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="t-date" required />
+        </div>
+        <div class="field">
+          <label>Service</label>
+          <select id="t-service">
+            <option value="breakfast">Breakfast · 08—11</option>
+            <option value="lunch" selected>Lunch · 12—15</option>
+            <option value="dinner">Dinner · 18—22</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="field">
+          <label>Time</label>
+          <div class="slot-grid" id="slots"></div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Name</label>
+          <input type="text" id="t-name" required placeholder="Full name" />
+        </div>
+        <div class="field">
+          <label>Phone</label>
+          <input type="tel" id="t-phone" required placeholder="+44..." />
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="t-email" required placeholder="you@email.com" />
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="field">
+          <label>Anything we should know? (Allergies, occasion, accessibility)</label>
+          <textarea placeholder="Optional — but helpful."></textarea>
+        </div>
+      </div>
+      <div class="submit-row">
+        <div class="summary" id="t-summary">Table for <strong id="ts-size">2</strong> · <strong id="ts-date">tomorrow</strong> · <strong id="ts-time">12:30</strong></div>
+        <button type="submit" class="cta">Reserve →</button>
+      </div>
+    </form>
+
+    <!-- Tasting events & supper clubs -->
+    <form class="reserve-panel" data-tab="event" onsubmit="event.preventDefault(); submitForm('event');">
+      <p style="text-align: center; max-width: 52ch; margin: 0 auto 32px; color: var(--sage-pale); font-style: italic;">
+        Long-table suppers, tastings &amp; collab dinners. Forty seats per
+        evening. Luna Card holders get £5 off and 48h early access.
+      </p>
+      <div class="form-row full">
+        <div class="field">
+          <label>Which evening?</label>
+          <select id="e-event">
+            <option>Provence Long Table · 14 June · £85</option>
+            <option>Loire Wine Dinner · 21 June · £95</option>
+            <option>Anouk's Birthday Tasting · 28 June · £120</option>
+            <option>Sicily Summer Supper · 5 July · £85</option>
+            <option>Lou's Chocolate Pairings · 12 July · £55</option>
+            <option>Solstice Long Table · 19 July · £95</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Your name</label>
+          <input type="text" required placeholder="Full name" />
+        </div>
+        <div class="field">
+          <label>Luna Card No. <span style="text-transform: none; letter-spacing: 0; color: var(--terra); font-style: italic;">(optional — for discount)</span></label>
+          <input type="text" placeholder="LC-XXXX" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Number of seats</label>
+          <input type="number" min="1" max="4" value="2" />
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" required placeholder="you@email.com" />
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="field">
+          <label>Guest names &amp; dietaries</label>
+          <textarea placeholder="One name per line — and tell us anything we should plate around."></textarea>
+        </div>
+      </div>
+      <div class="submit-row">
+        <div class="summary">Charged on confirmation · cancellation 72h.</div>
+        <button type="submit" class="cta">Book seats →</button>
+      </div>
+    </form>
+
+    <!-- Private hire -->
+    <form class="reserve-panel" data-tab="private" onsubmit="event.preventDefault(); submitForm('private');">
+      <p style="text-align: center; max-width: 50ch; margin: 0 auto 32px; color: var(--sage-pale); font-style: italic;">
+        We hire out the whole house — café, kitchen &amp; back room — for
+        weddings, launches, dinners. From 20 to 60 guests. Tell us a bit and
+        we'll be in touch within a day.
+      </p>
+      <div class="form-row">
+        <div class="field">
+          <label>What's the occasion?</label>
+          <select>
+            <option>Wedding / reception</option>
+            <option>Private dinner</option>
+            <option>Corporate / brand event</option>
+            <option>Launch / press dinner</option>
+            <option>Memorial / wake</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Number of guests</label>
+          <input type="number" min="10" max="80" value="30" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Preferred date</label>
+          <input type="date" />
+        </div>
+        <div class="field">
+          <label>Budget per head</label>
+          <select>
+            <option>£75 — café format, canapés &amp; wine</option>
+            <option>£120 — three courses, paired</option>
+            <option selected>£180 — tasting menu, full pairings</option>
+            <option>£250+ — bespoke</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Your name</label>
+          <input type="text" required placeholder="Full name" />
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" required placeholder="you@email.com" />
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="field">
+          <label>Tell us about the day</label>
+          <textarea placeholder="Anything you want us to know — vibe, format, must-haves, places you've loved..."></textarea>
+        </div>
+      </div>
+      <div class="submit-row">
+        <div class="summary">Anouk reads every enquiry personally.</div>
+        <button type="submit" class="cta">Send enquiry →</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="members" id="card">
+    <div class="members-grid">
+      <div>
+        <div class="label">No. 03 — The Luna Card</div>
+        <h2>One free coffee<br/>for every <em>ten.</em></h2>
+        <p>
+          The Luna Card is our loyalty card &mdash; free to take, easy to keep
+          in your wallet. Buy nine drinks, the tenth is on us. Plus a small
+          handful of other good things, listed below.
+        </p>
+        <ul class="member-benefits">
+          <li><strong>Every 10th drink free</strong> &mdash; stamped at the till, no app needed</li>
+          <li><strong>15% off pastries</strong> before 11am, Monday to Friday</li>
+          <li><strong>A free coffee &amp; cake</strong> on your birthday week</li>
+          <li><strong>48 hours early access</strong> to event tickets &amp; seasonal menus</li>
+          <li><strong>£5 off any supper-club ticket</strong>, every time</li>
+          <li>Member-only recipes in The Luna Letter, once a month</li>
+        </ul>
+        <button class="cta" onclick="showToast('Welcome to Luna &middot; your card will be ready next time you visit.');">Get your free card →</button>
+        <p style="margin-top: 16px; font-size: 14px; color: var(--ink-soft); font-style: italic;">
+          Free to join &middot; no email spam &middot; cancel any time by just walking away.
+        </p>
+      </div>
+      <div class="member-card-wrap">
+        <div class="member-card">
+          <div>
+            <div class="crown">Luna <em style="color: var(--terra);">Café</em></div>
+            <div class="tier">— LOYALTY CARD &middot; BUY 9 GET 1 FREE —</div>
+          </div>
+          <div class="stamp-row">
+            <div class="stamp filled">☕</div>
+            <div class="stamp filled">☕</div>
+            <div class="stamp filled">☕</div>
+            <div class="stamp filled">☕</div>
+            <div class="stamp"></div>
+            <div class="stamp"></div>
+            <div class="stamp"></div>
+            <div class="stamp"></div>
+            <div class="stamp"></div>
+            <div class="stamp free">FREE</div>
+          </div>
+          <div class="holder">M. ELOÏSE BERTRAND</div>
+          <div class="id-row">
+            <div class="id">Card&nbsp;No. <strong>LC&mdash;1184</strong></div>
+            <div class="since">
+              <div class="since-lbl">Card-holder since</div>
+              <div class="since-val">MMXXIII</div>
+            </div>
+          </div>
+        </div>
+        <p style="text-align: center; margin-top: 24px; font-family: 'EB Garamond', serif; font-style: italic; color: var(--ink-soft); font-size: 15px;">
+          Eloïse is four cups away from her free flat white.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="journal" id="journal">
+    <div class="journal-head">
+      <div>
+        <div class="label">No. 04 — Journal</div>
+        <h2>Notes <em>from the kitchen.</em></h2>
+      </div>
+      <p>
+        Stories, recipes, the things we're thinking about. Updated when we
+        feel like writing.
+      </p>
+    </div>
+    <div class="journal-grid">
+      <a href="#" class="article">
+        <div class="photo">
+          <svg viewBox="0 0 600 500" preserveAspectRatio="xMidYMid slice">
+            <rect width="600" height="500" fill="#6a7656"/>
+            <ellipse cx="300" cy="250" rx="220" ry="180" fill="#4e5840"/>
+            <!-- coffee cup -->
+            <ellipse cx="300" cy="380" rx="160" ry="20" fill="#1f2218" opacity="0.4"/>
+            <path d="M180 240 Q180 220 200 220 L400 220 Q420 220 420 240 L410 360 Q408 380 388 380 L212 380 Q192 380 190 360 Z" fill="#f5f1e8"/>
+            <path d="M420 250 Q470 250 470 290 Q470 330 420 330" stroke="#f5f1e8" stroke-width="6" fill="none"/>
+            <ellipse cx="300" cy="240" rx="118" ry="14" fill="#4f4030"/>
+            <ellipse cx="300" cy="238" rx="118" ry="14" fill="#6a3f1c"/>
+            <!-- steam -->
+            <path d="M260 160 Q250 130 270 110" stroke="#f5f1e8" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.7"/>
+            <path d="M300 150 Q290 120 310 100" stroke="#f5f1e8" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.7"/>
+            <path d="M340 160 Q330 130 350 110" stroke="#f5f1e8" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="article-body">
+          <div class="cat">Letter from Anouk</div>
+          <h3>On <em>slowness,</em> and the case for the long lunch.</h3>
+          <p>
+            Eight hundred words on why we still take ninety minutes to serve a
+            two-course menu, and why we'll be doing the same in five years.
+          </p>
+          <div class="meta">By Anouk · 04 May · 6 min read</div>
+        </div>
+      </a>
+
+      <a href="#" class="article">
+        <div class="photo">
+          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="300" fill="#b56340"/>
+            <circle cx="200" cy="150" r="80" fill="#1f2218"/>
+            <circle cx="200" cy="150" r="40" fill="#b56340"/>
+            <circle cx="200" cy="150" r="8" fill="#1f2218"/>
+            <path d="M120 80 Q160 60 200 80" stroke="#f5f1e8" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+        <div class="article-body">
+          <div class="cat">Recipe</div>
+          <h3>The <em>negroni</em> we serve at 5pm.</h3>
+          <div class="meta">Recipe · 3 min read</div>
+        </div>
+      </a>
+
+      <a href="#" class="article">
+        <div class="photo">
+          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="300" fill="#ebe5d3"/>
+            <rect x="80" y="60" width="240" height="180" fill="#6a7656"/>
+            <rect x="100" y="80" width="200" height="140" fill="#f5f1e8"/>
+            <text x="200" y="160" font-family="DM Serif Display, serif" font-size="40" fill="#1f2218" text-anchor="middle">N°2</text>
+          </svg>
+        </div>
+        <div class="article-body">
+          <div class="cat">Field Notes</div>
+          <h3>Three farms <em>worth visiting</em> in West Country.</h3>
+          <div class="meta">Travel · 8 min read</div>
+        </div>
+      </a>
+
+      <a href="#" class="article">
+        <div class="photo">
+          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="300" fill="#c5cab6"/>
+            <ellipse cx="200" cy="220" rx="140" ry="20" fill="#4e5840" opacity="0.5"/>
+            <rect x="160" y="100" width="80" height="120" fill="#b56340"/>
+            <rect x="155" y="95" width="90" height="14" fill="#1f2218"/>
+            <text x="200" y="170" font-family="EB Garamond" font-style="italic" font-size="16" fill="#f5f1e8" text-anchor="middle">Folio</text>
+            <text x="200" y="195" font-family="EB Garamond" font-style="italic" font-size="12" fill="#f5f1e8" text-anchor="middle">2022</text>
+          </svg>
+        </div>
+        <div class="article-body">
+          <div class="cat">Wine</div>
+          <h3>Six <em>bottles</em> we'll be opening in July.</h3>
+          <div class="meta">Wine notes · 5 min read</div>
+        </div>
+      </a>
+
+      <a href="#" class="article">
+        <div class="photo">
+          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="300" fill="#1f2218"/>
+            <circle cx="200" cy="150" r="100" fill="#b56340"/>
+            <ellipse cx="200" cy="180" rx="50" ry="14" fill="#1f2218" opacity="0.4"/>
+            <text x="200" y="168" font-family="DM Serif Display" font-style="italic" font-size="56" fill="#f5f1e8" text-anchor="middle">☾</text>
+          </svg>
+        </div>
+        <div class="article-body">
+          <div class="cat">The room</div>
+          <h3>Nine years of <em>late suppers</em> &amp; what they taught us.</h3>
+          <div class="meta">Essay · 9 min read</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="newsletter">
+    <h2>The <em>Luna Letter.</em></h2>
+    <p>Once a month: what we're cooking, drinking, listening to.<br/>Two paragraphs. No tracking pixels. No drama.</p>
+    <form onsubmit="event.preventDefault(); showToast('You&apos;re on the list &middot; expect a note on the first of next month.');">
+      <input type="email" placeholder="you@email.com" required />
+      <button type="submit">Subscribe</button>
+    </form>
+    <p class="also">P.S. Luna Card-holders get the Letter a week earlier, with the recipes attached.</p>
+  </section>
+
+  <section class="visit" id="visit">
+    <div class="visit-grid">
+      <div class="visit-block">
+        <h4><em>The</em> address</h4>
+        <p>
+          8 Gandy Street<br/>
+          Exeter EX4 3LS<br/><br/>
+          Off the high street.<br/>
+          Green awning, brass crescent.
+        </p>
+      </div>
+      <div class="visit-block">
+        <h4><em>The</em> hours</h4>
+        <ul style="margin: 0;">
+          <li class="hours-li"><span class="day">Mon</span><span class="time">closed</span></li>
+          <li class="hours-li"><span class="day">Tue</span><span class="time">08—15 · 18—22</span></li>
+          <li class="hours-li"><span class="day">Wed</span><span class="time">08—15 · 18—22</span></li>
+          <li class="hours-li"><span class="day">Thu</span><span class="time">08—15 · 18—23</span></li>
+          <li class="hours-li"><span class="day">Fri</span><span class="time">08—15 · 18—23</span></li>
+          <li class="hours-li"><span class="day">Sat</span><span class="time">09—23</span></li>
+          <li class="hours-li"><span class="day">Sun</span><span class="time">10—16 (brunch)</span></li>
+        </ul>
+      </div>
+      <div class="visit-block">
+        <h4><em>The</em> details</h4>
+        <p>
+          ✦ Step-free, accessible WC<br/>
+          ✦ Two private dining rooms<br/>
+          ✦ Children welcome till 19h<br/>
+          ✦ Dogs at the bar &amp; courtyard<br/>
+          ✦ Gluten-free menu always on<br/>
+          ✦ Vegan tasting menu by request
+        </p>
+      </div>
+      <div class="visit-block">
+        <h4><em>The</em> say-hello</h4>
+        <p>
+          For tables → <a href="#reserve" style="color: var(--terra);">book online</a><br/>
+          Email <a href="mailto:hello@luna.cafe" style="color: var(--terra);">hello@luna.cafe</a><br/>
+          Call <a href="tel:01392818100" style="color: var(--terra);">01392 818 100</a><br/>
+          Instagram <a href="#" style="color: var(--terra);">@luna.cafe</a><br/><br/>
+          Press <a href="#" style="color: var(--terra);">→ press@luna.cafe</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="map" style="padding: 100px 48px; background: var(--ivory); border-bottom: 1px solid var(--rule); position: relative; z-index: 2;">
+    <div style="max-width: 1400px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 56px;">
+        <div style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terra); margin-bottom: 16px; display: inline-flex; align-items: center; gap: 14px;">
+          <span style="width: 30px; height: 1px; background: var(--terra);"></span>
+          No. 06 — Find Luna
+          <span style="width: 30px; height: 1px; background: var(--terra);"></span>
+        </div>
+        <h2 style="font-family: 'DM Serif Display', serif; font-size: clamp(40px, 6vw, 84px); line-height: 0.95; letter-spacing: -0.02em;">
+          The corner of <em style="font-style: italic; color: var(--terra);">Gandy Street</em>,<br/>just under the moon.
+        </h2>
+        <p style="font-family: 'EB Garamond', serif; font-style: italic; color: var(--ink-soft); font-size: 19px; max-width: 56ch; margin: 16px auto 0;">
+          Three minutes' walk from Exeter Cathedral. Look for the green
+          awning, the brass crescent on the door, the candles in the window
+          after dark.
+        </p>
+      </div>
+      <div style="border: 1px solid var(--rule); padding: 10px; background: var(--ivory-deep); position: relative;">
+        <span style="position: absolute; top: -1px; left: -1px; width: 28px; height: 28px; border-top: 2px solid var(--terra); border-left: 2px solid var(--terra); z-index: 2; pointer-events: none;"></span>
+        <span style="position: absolute; top: -1px; right: -1px; width: 28px; height: 28px; border-top: 2px solid var(--terra); border-right: 2px solid var(--terra); z-index: 2; pointer-events: none;"></span>
+        <span style="position: absolute; bottom: -1px; left: -1px; width: 28px; height: 28px; border-bottom: 2px solid var(--terra); border-left: 2px solid var(--terra); z-index: 2; pointer-events: none;"></span>
+        <span style="position: absolute; bottom: -1px; right: -1px; width: 28px; height: 28px; border-bottom: 2px solid var(--terra); border-right: 2px solid var(--terra); z-index: 2; pointer-events: none;"></span>
+        <iframe
+          src="https://maps.google.com/maps?q=Luna+Cafe+Gandy+Street+Exeter&z=16&output=embed"
+          width="100%" height="540"
+          style="border:0; display:block;"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Luna Café on the map">
+        </iframe>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; margin-top: 32px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft);">
+        <div style="padding: 16px 24px; border-right: 1px solid var(--rule); text-align: center;">
+          <strong style="color: var(--terra); font-weight: 500; display: block; margin-bottom: 2px;">By foot</strong>3 min from the High Street
+        </div>
+        <div style="padding: 16px 24px; border-right: 1px solid var(--rule); text-align: center;">
+          <strong style="color: var(--terra); font-weight: 500; display: block; margin-bottom: 2px;">By train</strong>10 min walk · Exeter Central
+        </div>
+        <div style="padding: 16px 24px; text-align: center;">
+          <strong style="color: var(--terra); font-weight: 500; display: block; margin-bottom: 2px;">By car</strong>Mary Arches St. car park
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-mast">
+      <h3>Luna <em>Café</em></h3>
+      <div class="est">EST. MMXVI · 8 GANDY STREET · EXETER</div>
+    </div>
+    <div class="foot-grid">
+      <div>
+        <h5>The house</h5>
+        <ul>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#card">The Luna Card</a></li>
+          <li><a href="#journal">The Journal</a></li>
+          <li><a href="#visit">Visit</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Reservations</h5>
+        <ul>
+          <li><a href="#reserve">Book a table</a></li>
+          <li><a href="#reserve">Event tickets</a></li>
+          <li><a href="#reserve">Private hire</a></li>
+          <li><a href="mailto:press@luna.cafe">Press enquiries</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>The shop</h5>
+        <ul>
+          <li><a href="#">Coffee subscription</a></li>
+          <li><a href="#">Gift cards</a></li>
+          <li><a href="#">Cookbook (out July)</a></li>
+          <li><a href="#">Merch &amp; ceramics</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>The Letter</h5>
+        <ul>
+          <li>Once a month.</li>
+          <li>Two paragraphs.</li>
+          <li>Card-holders get it first.</li>
+          <li><a href="#newsletter">Subscribe →</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© Luna Café Ltd. — All rights, no rush.</span>
+      <span>Made with patience · Exeter</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">Booking received.</div>
+
+<script>
+  // Reserve tabs
+  document.querySelectorAll('.reserve-tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.reserve-tab').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.reserve-panel').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      document.querySelector('.reserve-panel[data-tab="' + t.dataset.tab + '"]').classList.add('active');
+    });
+  });
+
+  // Party pills
+  let partySize = '2';
+  document.querySelectorAll('#party .pill').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#party .pill').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      partySize = b.dataset.size;
+      updateTableSummary();
+    });
+  });
+
+  // Slots — safer DOM construction (no innerHTML)
+  const breakfast = ['08:00','08:30','09:00','09:30','10:00','10:30'];
+  const lunch = ['12:00','12:30','13:00','13:30','14:00','14:30'];
+  const dinner = ['18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30'];
+  const taken = new Set(['09:30','13:00','13:30','19:30','20:00']);
+  let selectedTime = '12:30';
+
+  function renderSlots() {
+    const v = document.getElementById('t-service').value;
+    const map = { breakfast, lunch, dinner };
+    const times = map[v] || lunch;
+    if (!times.includes(selectedTime)) selectedTime = times[1] || times[0];
+    const wrap = document.getElementById('slots');
+    while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
+    times.forEach(t => {
+      const isTaken = taken.has(t);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pill' + (t === selectedTime && !isTaken ? ' active' : '');
+      btn.dataset.time = t;
+      btn.disabled = isTaken;
+      btn.textContent = t;
+      btn.addEventListener('click', () => {
+        if (btn.disabled) return;
+        document.querySelectorAll('#slots .pill').forEach(x => x.classList.remove('active'));
+        btn.classList.add('active');
+        selectedTime = t;
+        updateTableSummary();
+      });
+      wrap.appendChild(btn);
+    });
+  }
+  document.getElementById('t-service').addEventListener('change', renderSlots);
+  renderSlots();
+
+  // Date setup
+  const dateEl = document.getElementById('t-date');
+  const today = new Date();
+  const tomorrow = new Date(today.getTime() + 86400000);
+  const fmt = (d) => d.toISOString().slice(0, 10);
+  dateEl.min = fmt(today);
+  dateEl.value = fmt(tomorrow);
+  dateEl.max = fmt(new Date(today.getTime() + 42 * 86400000));
+  dateEl.addEventListener('change', updateTableSummary);
+
+  function updateTableSummary() {
+    document.getElementById('ts-size').textContent = partySize === '8' ? '8+' : partySize;
+    const d = new Date(dateEl.value);
+    const isToday = d.toDateString() === today.toDateString();
+    const isTomorrow = d.toDateString() === tomorrow.toDateString();
+    let label;
+    if (isToday) label = 'today';
+    else if (isTomorrow) label = 'tomorrow';
+    else label = d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
+    document.getElementById('ts-date').textContent = label;
+    document.getElementById('ts-time').textContent = selectedTime;
+  }
+  updateTableSummary();
+
+  // Today's hours
+  (function () {
+    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const today = days[new Date().getDay()].toLowerCase();
+    document.querySelectorAll('.hours-li').forEach(li => {
+      const d = li.querySelector('.day')?.textContent.trim().toLowerCase();
+      if (d === today) li.classList.add('today');
+    });
+  })();
+
+  // Form submissions
+  function submitForm(kind) {
+    const messages = {
+      table: 'Table reserved · we\'ll send your confirmation by email shortly.',
+      event: 'Seats held · we\'ll send a payment link within the hour.',
+      private: 'Enquiry received · Anouk reads each one and writes back personally.',
+    };
+    showToast(messages[kind] || 'Received.');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4500);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"c:/Website-Design-Examples/cafe-examples/tier-1-essential\" \"c:/Website-Design-Examples/cafe-examples/tier-2-classic\" \"c:/Website-Design-Examples/cafe-examples/tier-3-premium\" \"c:/Website-Design-Examples/cafe-examples/tier-4-signature\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Website-Design-Examples\\cafe-examples"
+    ]
+  }
+}

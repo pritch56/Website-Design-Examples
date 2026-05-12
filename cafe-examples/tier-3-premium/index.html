@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Noir — Café · Bistro · Bar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0c0b0a;
+    --panel: #14120f;
+    --gold: #c9a14a;
+    --gold-bright: #e2bb5a;
+    --cream: #ece4d3;
+    --cream-dim: #a89e88;
+    --rule: #2a2620;
+    --accent: #c54a30;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(201,161,74,0.08), transparent 60%),
+      radial-gradient(ellipse at 100% 100%, rgba(197,74,48,0.04), transparent 50%);
+  }
+  body::after {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.5 0 0 0 0 0.3 0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* ===== Nav ===== */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 48px;
+    background: rgba(12,11,10,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+    transition: padding 0.3s ease;
+  }
+  .nav.scrolled { padding: 14px 48px; }
+  .nav .mark {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+  }
+  .nav .mark .sep {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold);
+    display: inline-block;
+  }
+  .nav ul { display: flex; gap: 36px; list-style: none; }
+  .nav a {
+    color: var(--cream-dim);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav a:hover { color: var(--cream); }
+  .nav .book-btn {
+    background: var(--gold);
+    color: var(--bg);
+    padding: 10px 22px;
+    border-radius: 100px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    transition: all 0.2s;
+  }
+  .nav .book-btn:hover { background: var(--gold-bright); transform: translateY(-1px); color: var(--bg); }
+
+  /* ===== Hero ===== */
+  .hero {
+    position: relative; z-index: 2;
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 48px 80px;
+  }
+  .hero-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    align-items: center;
+  }
+  .hero-meta::before {
+    content: ""; width: 36px; height: 1px; background: var(--gold);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(60px, 9vw, 156px);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    color: var(--cream);
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 300;
+  }
+  .hero .lede {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--cream-dim);
+    max-width: 44ch;
+    margin-bottom: 40px;
+  }
+  .hero-cta {
+    display: flex; gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.25s ease;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--bg);
+  }
+  .btn-primary:hover { background: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,161,74,0.25); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--cream);
+    border-color: var(--rule);
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 3/4;
+    max-width: 480px;
+    margin-left: auto;
+  }
+  .hero-card {
+    position: absolute; inset: 0;
+    border: 1px solid var(--gold);
+    padding: 24px;
+    background: rgba(20,18,15,0.4);
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+  }
+  .hero-card::before {
+    content: ""; position: absolute; inset: 8px;
+    border: 1px solid rgba(201,161,74,0.3);
+    pointer-events: none;
+  }
+  .hero-card .crest {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .hero-card .crest svg { width: 80px; height: 80px; }
+  .hero-card .crest .est {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    margin-top: 12px;
+  }
+  .hero-card h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 72px;
+    font-weight: 300;
+    text-align: center;
+    line-height: 0.9;
+    color: var(--cream);
+    margin: 32px 0;
+  }
+  .hero-card h2 em { font-style: italic; color: var(--gold); }
+  .hero-card .menu-preview {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--cream-dim);
+    text-align: center;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  .hero-card .footer-line {
+    text-align: center;
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    margin-top: 24px;
+    margin-bottom: 4px;
+  }
+  .hero-card .footer-line::before,
+  .hero-card .footer-line::after {
+    content: "✦";
+    margin: 0 10px;
+  }
+
+  .steam-orb {
+    position: absolute;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(201,161,74,0.18), transparent 70%);
+    border-radius: 50%;
+    filter: blur(20px);
+    animation: drift 8s ease-in-out infinite;
+  }
+  .steam-orb.a { top: 20%; left: -10%; }
+  .steam-orb.b { bottom: 10%; right: 10%; animation-delay: 4s; }
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+    50% { transform: translate(20px, -30px) scale(1.2); opacity: 0.4; }
+  }
+
+  /* ===== Section base ===== */
+  section {
+    position: relative;
+    z-index: 2;
+    padding: 120px 48px;
+  }
+  .container { max-width: 1400px; margin: 0 auto; }
+  .label {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .label::before {
+    content: ""; width: 36px; height: 1px; background: var(--gold);
+  }
+  h2.section-h {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(40px, 5vw, 80px);
+    font-weight: 300;
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    margin-bottom: 28px;
+  }
+  h2.section-h em { font-style: italic; color: var(--gold); font-weight: 300; }
+  .lead {
+    font-size: 18px;
+    color: var(--cream-dim);
+    max-width: 60ch;
+    line-height: 1.55;
+  }
+
+  /* ===== Menu ===== */
+  .menu-section { background: linear-gradient(180deg, transparent, rgba(20,18,15,0.5)); }
+  .menu-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 60px;
+  }
+  .menu-tabs {
+    display: flex; gap: 4px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .menu-tab {
+    padding: 14px 22px;
+    background: transparent;
+    border: none;
+    color: var(--cream-dim);
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .menu-tab.active { color: var(--gold); }
+  .menu-tab.active::after {
+    content: "";
+    position: absolute; left: 16px; right: 16px; bottom: -1px;
+    height: 1px; background: var(--gold);
+  }
+  .menu-tab:hover { color: var(--cream); }
+  .menu-panel {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px 80px;
+  }
+  .menu-panel.active { display: grid; }
+  .menu-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px 24px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  .menu-row .name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--cream);
+  }
+  .menu-row .name em { font-style: italic; color: var(--gold); }
+  .menu-row .price {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: var(--gold);
+  }
+  .menu-row .desc {
+    grid-column: 1 / -1;
+    font-size: 14px;
+    color: var(--cream-dim);
+    font-style: italic;
+    line-height: 1.5;
+    max-width: 50ch;
+  }
+
+  /* ===== Events ===== */
+  .events { background: var(--panel); }
+  .event-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 32px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: center;
+    transition: padding 0.3s, background 0.3s;
+    cursor: pointer;
+  }
+  .event-row:hover { padding-left: 16px; }
+  .event-row:hover .event-arrow { transform: translateX(6px); }
+  .date-block {
+    width: 80px;
+    text-align: center;
+    border-right: 1px solid var(--rule);
+    padding-right: 32px;
+  }
+  .date-block .day {
+    font-family: 'Fraunces', serif;
+    font-size: 40px;
+    line-height: 1;
+    color: var(--gold);
+  }
+  .date-block .month {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    margin-top: 6px;
+  }
+  .event-content h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+  .event-content h4 em { font-style: italic; color: var(--gold); }
+  .event-content p { font-size: 14px; color: var(--cream-dim); }
+  .event-meta {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    text-align: right;
+  }
+  .event-meta .price { color: var(--gold); font-family: 'Fraunces', serif; font-size: 18px; text-transform: none; letter-spacing: 0; }
+  .event-arrow {
+    color: var(--gold);
+    font-size: 24px;
+    transition: transform 0.3s ease;
+  }
+
+  /* ===== Booking ===== */
+  .booking {
+    background: linear-gradient(180deg, var(--panel), var(--bg));
+    overflow: hidden;
+  }
+  .booking-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: stretch;
+  }
+  .booking-side .badge-line {
+    margin-top: 32px;
+    padding: 20px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .badge-line div { text-align: left; }
+  .badge-line .n {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .badge-line .t {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    margin-top: 8px;
+  }
+
+  .booking-form {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    padding: 48px;
+    position: relative;
+  }
+  .booking-form::before {
+    content: "";
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 40px; height: 40px;
+    border-top: 1px solid var(--gold);
+    border-left: 1px solid var(--gold);
+  }
+  .booking-form::after {
+    content: "";
+    position: absolute;
+    bottom: -1px; right: -1px;
+    width: 40px; height: 40px;
+    border-bottom: 1px solid var(--gold);
+    border-right: 1px solid var(--gold);
+  }
+  .booking-form h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 300;
+    margin-bottom: 8px;
+  }
+  .booking-form h3 em { font-style: italic; color: var(--gold); }
+  .form-sub { color: var(--cream-dim); font-size: 14px; margin-bottom: 32px; }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+  .form-row.full { grid-template-columns: 1fr; }
+  .field-group { display: flex; flex-direction: column; gap: 8px; }
+  .field-group label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+  }
+  .field-group input,
+  .field-group select,
+  .field-group textarea {
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    color: var(--cream);
+    padding: 14px 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    transition: border-color 0.2s;
+  }
+  .field-group input:focus,
+  .field-group select:focus,
+  .field-group textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+  .field-group textarea { min-height: 80px; resize: vertical; }
+  .party {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .party-btn {
+    flex: 1;
+    min-width: 44px;
+    padding: 12px 0;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    color: var(--cream);
+    font-family: inherit;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.15s;
+  }
+  .party-btn:hover { border-color: var(--gold); }
+  .party-btn.active { background: var(--gold); color: var(--bg); border-color: var(--gold); font-weight: 500; }
+  .slots {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .slot {
+    padding: 10px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    color: var(--cream);
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .slot:hover:not(:disabled) { border-color: var(--gold); }
+  .slot.active { background: var(--gold); color: var(--bg); border-color: var(--gold); font-weight: 500; }
+  .slot:disabled { color: var(--cream-dim); cursor: not-allowed; opacity: 0.35; text-decoration: line-through; }
+
+  .submit-row {
+    margin-top: 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .submit-summary {
+    font-size: 13px;
+    color: var(--cream-dim);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+  }
+  .submit-summary strong { color: var(--gold); font-style: normal; font-family: 'Manrope', sans-serif; font-weight: 500; letter-spacing: 0.05em; }
+
+  .sticky-book {
+    position: fixed;
+    bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(120px);
+    background: var(--panel);
+    border: 1px solid var(--gold);
+    border-radius: 100px;
+    padding: 8px 8px 8px 24px;
+    display: flex; align-items: center; gap: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    z-index: 40;
+    transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
+  }
+  .sticky-book.show { transform: translateX(-50%) translateY(0); }
+  .sticky-book .text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--cream);
+    font-size: 15px;
+  }
+  .sticky-book .text em { color: var(--gold); font-style: normal; font-weight: 500; }
+  .sticky-book .btn { padding: 12px 22px; font-size: 12px; }
+
+  .visit { padding-top: 120px; }
+  .visit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 60px;
+  }
+  .visit-block h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+  .visit-block h4 em { font-style: italic; color: var(--gold); }
+  .visit-block p { color: var(--cream-dim); font-size: 15px; line-height: 1.6; }
+  .hours li {
+    display: flex; justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--rule);
+    list-style: none;
+    font-size: 14px;
+  }
+  .hours li.today { color: var(--gold); }
+  .hours li .day { letter-spacing: 0.15em; text-transform: uppercase; font-size: 11px; }
+
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--rule);
+    padding: 60px 48px 32px;
+    position: relative; z-index: 2;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    max-width: 1400px;
+    margin: 0 auto 48px;
+  }
+  footer .mark {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+  footer h5 {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  footer ul { list-style: none; }
+  footer ul li { padding: 5px 0; font-size: 14px; color: var(--cream-dim); }
+  footer ul li a { color: var(--cream-dim); text-decoration: none; transition: color 0.2s; }
+  footer ul li a:hover { color: var(--gold); }
+  footer .copy {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--gold);
+    color: var(--bg);
+    padding: 18px 28px;
+    border-radius: 100px;
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    box-shadow: 0 20px 60px rgba(201,161,74,0.3);
+    z-index: 100;
+    opacity: 0;
+    transition: all 0.45s cubic-bezier(.2,.8,.2,1);
+    text-align: center;
+    max-width: 90%;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast em { font-style: italic; }
+
+  @media (max-width: 900px) {
+    .nav { padding: 16px 20px; }
+    .nav ul { display: none; }
+    .hero { padding: 100px 20px 60px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    .hero-visual { max-width: 100%; aspect-ratio: 4/5; margin: 0; }
+    section { padding: 80px 20px; }
+    .menu-head { grid-template-columns: 1fr; gap: 32px; }
+    .menu-panel.active { grid-template-columns: 1fr; gap: 32px; }
+    .booking-grid { grid-template-columns: 1fr; gap: 40px; }
+    .booking-form { padding: 28px; }
+    .form-row, .form-row.three { grid-template-columns: 1fr; }
+    .slots { grid-template-columns: repeat(3, 1fr); }
+    .visit-grid { grid-template-columns: 1fr; gap: 32px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    footer { padding: 40px 20px; }
+    .event-row { grid-template-columns: 1fr; gap: 12px; padding: 24px 0; }
+    .date-block { display: flex; gap: 12px; align-items: baseline; padding-right: 0; border-right: none; border-bottom: 1px solid var(--rule); padding-bottom: 12px; width: 100%; }
+    .date-block .day { font-size: 32px; }
+    .event-meta { text-align: left; }
+    .sticky-book { left: 12px; right: 12px; transform: translateY(140px); }
+    .sticky-book.show { transform: translateY(0); }
+    .sticky-book .text { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="mark">Noir <span class="sep"></span> Café</div>
+    <ul>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#book">Booking</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+    <a class="book-btn" href="#book">Reserve</a>
+  </nav>
+
+  <header class="hero">
+    <div class="steam-orb a"></div>
+    <div class="steam-orb b"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-meta">Café · Bistro · Bar · Est. 2021</div>
+        <h1>A quiet<br/>corner of<br/><em>somewhere</em><br/>elsewhere.</h1>
+        <p class="lede">
+          Single-origin coffee by day, small-plates &amp; natural wine by night.
+          Vinyl on, candles lit, no rush. Reservations open six weeks out.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#book">Reserve a table →</a>
+          <a class="btn btn-ghost" href="#menu">See the menu</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card">
+          <div class="crest">
+            <svg viewBox="0 0 80 80" fill="none">
+              <circle cx="40" cy="40" r="36" stroke="#c9a14a" stroke-width="1"/>
+              <circle cx="40" cy="40" r="28" stroke="#c9a14a" stroke-width="0.5"/>
+              <text x="40" y="46" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="22" fill="#c9a14a">N</text>
+            </svg>
+            <div class="est">— EST. MMXXI —</div>
+          </div>
+          <h2>Noir<br/><em>Café</em></h2>
+          <div class="menu-preview">
+            Filter coffee, hand-rolled pasta,<br/>
+            natural wine, soft jazz, the door<br/>
+            always closes gently behind you.
+          </div>
+          <div class="footer-line">15 CATHEDRAL YARD</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="menu-section" id="menu">
+    <div class="container">
+      <div class="menu-head">
+        <div>
+          <div class="label">01 — The menu</div>
+          <h2 class="section-h">Small plates,<br/>slow <em>coffee</em>,<br/>natural wine.</h2>
+        </div>
+        <p class="lead">
+          Two menus in one room. Coffee &amp; pastries until 3pm, then we
+          close, change the lights, and open again at 6 for dinner. The
+          wine list runs to forty bottles, mostly low-intervention.
+        </p>
+      </div>
+
+      <div class="menu-tabs">
+        <button class="menu-tab active" data-panel="day">Day · 08—15h</button>
+        <button class="menu-tab" data-panel="evening">Evening · 18—23h</button>
+        <button class="menu-tab" data-panel="wine">Wine list</button>
+      </div>
+
+      <div class="menu-panel active" data-panel="day">
+        <div>
+          <div class="menu-row">
+            <span class="name">Filter, single origin</span>
+            <span class="price">£3.80</span>
+            <span class="desc">Rotating. Today: Ethiopia, Worka Sakaro, washed.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Cortado</span>
+            <span class="price">£3.40</span>
+            <span class="desc">Tight ristretto, equal milk, in a Duralex glass.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Bicerin</span>
+            <span class="price">£4.80</span>
+            <span class="desc">Layered espresso, melted dark chocolate, whipped cream.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Eggs <em>en cocotte</em></span>
+            <span class="price">£11</span>
+            <span class="desc">Baked with cream, chives, parmesan. Sourdough soldiers.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Smoked trout tartine</span>
+            <span class="price">£14</span>
+            <span class="desc">Rye, horseradish crème, lemon, dill, capers.</span>
+          </div>
+        </div>
+        <div>
+          <div class="menu-row">
+            <span class="name">Croque <em>monsieur</em></span>
+            <span class="price">£13</span>
+            <span class="desc">Sourdough, gruyère, béchamel, ham hock. The classic.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Steak haché, frites</span>
+            <span class="price">£16</span>
+            <span class="desc">Beef, shallots, herb butter, hand-cut chips.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Salade composée</span>
+            <span class="price">£12</span>
+            <span class="desc">Lentils, goat cheese, walnuts, sherry vinaigrette.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Tarte du jour</span>
+            <span class="price">£6</span>
+            <span class="desc">Whatever the kitchen made this morning. Always worth asking.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Affogato</span>
+            <span class="price">£6.50</span>
+            <span class="desc">Vanilla bean gelato, hot espresso, amaretti crumb.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-panel" data-panel="evening">
+        <div>
+          <div class="menu-row">
+            <span class="name">Oysters · half dozen</span>
+            <span class="price">£18</span>
+            <span class="desc">West Mersea, raw, mignonette &amp; lemon.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Burrata, peach, mint</span>
+            <span class="price">£14</span>
+            <span class="desc">Olive oil, sea salt, chilled. Eat first.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Beef tartare</span>
+            <span class="price">£16</span>
+            <span class="desc">Hand-cut, capers, shallot, egg yolk, croutons.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Hand-rolled <em>pici</em></span>
+            <span class="price">£18</span>
+            <span class="desc">Brown butter, sage, hazelnut, parmesan.</span>
+          </div>
+        </div>
+        <div>
+          <div class="menu-row">
+            <span class="name">Duck leg, lentils</span>
+            <span class="price">£22</span>
+            <span class="desc">Confit, Puy lentils, salsa verde, watercress.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Whole sea bream</span>
+            <span class="price">£26</span>
+            <span class="desc">Grilled, herbs, fennel, brown butter, lemon.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Chocolate <em>pot</em></span>
+            <span class="price">£8</span>
+            <span class="desc">70%, sea salt, olive oil, sourdough cracker.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Cheese flight</span>
+            <span class="price">£14</span>
+            <span class="desc">Three, with quince, honeycomb, oatcakes.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-panel" data-panel="wine">
+        <div>
+          <div class="menu-row">
+            <span class="name">Coume del Mas <em>Folio</em> 2022</span>
+            <span class="price">£42</span>
+            <span class="desc">Languedoc · Carignan/Grenache · cherry, herbs.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Patrick Sullivan <em>Baw Baw</em></span>
+            <span class="price">£58</span>
+            <span class="desc">Victoria · Chardonnay · stone fruit, lees.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Frank Cornelissen <em>Susucaru</em></span>
+            <span class="price">£52</span>
+            <span class="desc">Sicily · field blend · volcanic, light, joyful.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Sébastien Riffault <em>Auksinis</em></span>
+            <span class="price">£64</span>
+            <span class="desc">Sancerre · Sauvignon · skin contact, citrus.</span>
+          </div>
+        </div>
+        <div>
+          <div class="menu-row">
+            <span class="name">House red · by glass</span>
+            <span class="price">£8</span>
+            <span class="desc">Whatever's open. Always worth a try.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">House white · by glass</span>
+            <span class="price">£8</span>
+            <span class="desc">Crisp, mineral, changes weekly.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Pet-nat · by glass</span>
+            <span class="price">£10</span>
+            <span class="desc">Bone dry, a little funky, very alive.</span>
+          </div>
+          <div class="menu-row">
+            <span class="name">Negroni Sbagliato</span>
+            <span class="price">£11</span>
+            <span class="desc">Campari, sweet vermouth, prosecco. Stirred, with orange.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="events" id="events">
+    <div class="container">
+      <div class="label">02 — What's on</div>
+      <h2 class="section-h">This <em>season</em> at Noir.</h2>
+      <p class="lead" style="margin-bottom: 60px;">
+        We host one or two evenings a month — natural wine tastings, jazz
+        nights, supper club. Reserve a seat below, or pop in for the bar.
+      </p>
+
+      <div class="event-list">
+        <div class="event-row" data-event="Natural Wine Night · 24 May">
+          <div class="date-block">
+            <div class="day">24</div>
+            <div class="month">May</div>
+          </div>
+          <div class="event-content">
+            <h4>Natural Wine <em>Night</em></h4>
+            <p>Six pours from the Loire, with the importer in the room. Snacks included.</p>
+          </div>
+          <div class="event-meta">
+            <div>19:00 — 22:00</div>
+            <div class="price">£45 / seat</div>
+          </div>
+          <div class="event-arrow">→</div>
+        </div>
+
+        <div class="event-row" data-event="Sunday Brunch with the Lazy Trio · 31 May">
+          <div class="date-block">
+            <div class="day">31</div>
+            <div class="month">May</div>
+          </div>
+          <div class="event-content">
+            <h4>Brunch &amp; <em>jazz trio</em></h4>
+            <p>The Lazy Trio playing standards. Bottomless filter, eggs to order.</p>
+          </div>
+          <div class="event-meta">
+            <div>10:00 — 14:00</div>
+            <div class="price">walk-in</div>
+          </div>
+          <div class="event-arrow">→</div>
+        </div>
+
+        <div class="event-row" data-event="Coffee & Chocolate · 12 June">
+          <div class="date-block">
+            <div class="day">12</div>
+            <div class="month">Jun</div>
+          </div>
+          <div class="event-content">
+            <h4>Coffee &amp; <em>chocolate</em></h4>
+            <p>A guided tasting with Lou from Pump Street. Six pairings, two hours.</p>
+          </div>
+          <div class="event-meta">
+            <div>18:30 — 20:30</div>
+            <div class="price">£35 / seat</div>
+          </div>
+          <div class="event-arrow">→</div>
+        </div>
+
+        <div class="event-row" data-event="Supper Club: Provence · 28 June">
+          <div class="date-block">
+            <div class="day">28</div>
+            <div class="month">Jun</div>
+          </div>
+          <div class="event-content">
+            <h4>Supper club: <em>Provence</em></h4>
+            <p>Six courses, paired wines, one long table. Chef Hugo cooks the south.</p>
+          </div>
+          <div class="event-meta">
+            <div>19:30</div>
+            <div class="price">£75 / seat</div>
+          </div>
+          <div class="event-arrow">→</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="booking" id="book">
+    <div class="container">
+      <div class="booking-grid">
+        <div class="booking-side">
+          <div class="label">03 — Reserve a table</div>
+          <h2 class="section-h">Save your <em>seat.</em></h2>
+          <p class="lead">
+            Reservations open six weeks ahead. Most tables seat 2–4. For
+            larger groups (5+), use the form and we'll write back personally
+            within a day. Walk-ins always welcome at the bar.
+          </p>
+          <div class="badge-line">
+            <div><div class="n">42</div><div class="t">covers per service</div></div>
+            <div><div class="n">6 wk</div><div class="t">booking window</div></div>
+            <div><div class="n">15 min</div><div class="t">grace, then released</div></div>
+          </div>
+        </div>
+
+        <form class="booking-form" id="book-form" onsubmit="event.preventDefault(); submitBooking();">
+          <h3>Book a <em>table</em></h3>
+          <p class="form-sub">All bookings confirmed by email within minutes.</p>
+
+          <div class="form-row full">
+            <div class="field-group">
+              <label>Party size</label>
+              <div class="party" id="party">
+                <button type="button" class="party-btn" data-size="1">1</button>
+                <button type="button" class="party-btn active" data-size="2">2</button>
+                <button type="button" class="party-btn" data-size="3">3</button>
+                <button type="button" class="party-btn" data-size="4">4</button>
+                <button type="button" class="party-btn" data-size="5">5</button>
+                <button type="button" class="party-btn" data-size="6">6</button>
+                <button type="button" class="party-btn" data-size="7">7+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field-group">
+              <label>Date</label>
+              <input type="date" id="b-date" required />
+            </div>
+            <div class="field-group">
+              <label>Service</label>
+              <select id="b-service">
+                <option value="day">Day · 08—15h</option>
+                <option value="evening" selected>Evening · 18—23h</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="field-group">
+              <label>Time</label>
+              <div class="slots" id="slots"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field-group">
+              <label>Name</label>
+              <input type="text" id="b-name" required placeholder="Full name" />
+            </div>
+            <div class="field-group">
+              <label>Phone</label>
+              <input type="tel" id="b-phone" required placeholder="+44 ..." />
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="field-group">
+              <label>Email</label>
+              <input type="email" id="b-email" required placeholder="you@email.com" />
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="field-group">
+              <label>Anything we should know? (Optional)</label>
+              <textarea id="b-notes" placeholder="Allergies, occasion, accessibility..."></textarea>
+            </div>
+          </div>
+
+          <div class="submit-row">
+            <div class="submit-summary" id="summary">
+              Booking for <strong id="s-size">2</strong> ·
+              <strong id="s-date">tonight</strong> ·
+              <strong id="s-time">19:00</strong>
+            </div>
+            <button type="submit" class="btn btn-primary">Reserve →</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="visit" id="visit">
+    <div class="container">
+      <div class="label">04 — Visit</div>
+      <h2 class="section-h" style="margin-bottom: 60px;">Find us at the <em>quiet end</em> of the street.</h2>
+      <div class="visit-grid">
+        <div class="visit-block">
+          <h4>The <em>address</em></h4>
+          <p>
+            15 Cathedral Yard<br/>
+            Exeter EX1 1HJ<br/><br/>
+            Tucked into the corner of the green,<br/>
+            opposite the cathedral.<br/>
+            Green door, gold sign.
+          </p>
+        </div>
+        <div class="visit-block">
+          <h4>The <em>hours</em></h4>
+          <ul class="hours">
+            <li><span class="day">Mon</span><span>closed</span></li>
+            <li><span class="day">Tue</span><span>08—15 · 18—23</span></li>
+            <li><span class="day">Wed</span><span>08—15 · 18—23</span></li>
+            <li><span class="day">Thu</span><span>08—15 · 18—24</span></li>
+            <li><span class="day">Fri</span><span>08—15 · 18—01</span></li>
+            <li><span class="day">Sat</span><span>09—01</span></li>
+            <li><span class="day">Sun</span><span>09—16 (brunch only)</span></li>
+          </ul>
+        </div>
+        <div class="visit-block">
+          <h4>The <em>details</em></h4>
+          <p>
+            ✦ Step-free entry, accessible WC<br/>
+            ✦ Quiet hour 10—11am every weekday<br/>
+            ✦ Children welcome till 19h<br/>
+            ✦ Dogs at the bar, by the window<br/>
+            ✦ Private hire available (24 seats)<br/>
+            ✦ <a href="#book" style="color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold);">Reserve →</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="map" style="position: relative; z-index: 2; padding: 120px 48px; background: var(--panel); border-top: 1px solid var(--rule);">
+    <div class="container">
+      <div class="label">05 — The map</div>
+      <h2 class="section-h" style="margin-bottom: 24px;">In the <em>shadow</em><br/>of the cathedral.</h2>
+      <p class="lead" style="margin-bottom: 48px;">
+        Cathedral Yard, north side. The lanterns are lit by 5pm. Two minutes
+        from the High Street, ten from St David's station.
+      </p>
+      <div style="border: 1px solid var(--gold); padding: 10px; background: var(--bg); position: relative;">
+        <div style="position: absolute; top: -1px; left: -1px; width: 32px; height: 32px; border-top: 2px solid var(--gold); border-left: 2px solid var(--gold); z-index: 2; pointer-events: none;"></div>
+        <div style="position: absolute; top: -1px; right: -1px; width: 32px; height: 32px; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); z-index: 2; pointer-events: none;"></div>
+        <div style="position: absolute; bottom: -1px; left: -1px; width: 32px; height: 32px; border-bottom: 2px solid var(--gold); border-left: 2px solid var(--gold); z-index: 2; pointer-events: none;"></div>
+        <div style="position: absolute; bottom: -1px; right: -1px; width: 32px; height: 32px; border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); z-index: 2; pointer-events: none;"></div>
+        <iframe
+          src="https://maps.google.com/maps?q=Cathedral+Yard+Exeter+EX1+1HJ&z=16&output=embed"
+          width="100%" height="520"
+          style="border:0; display:block; filter: invert(0.92) hue-rotate(180deg) saturate(0.4) brightness(1.05);"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Noir Café on the map">
+        </iframe>
+      </div>
+      <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-top: 24px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim);">
+        <span>15 Cathedral Yard · Exeter EX1 1HJ</span>
+        <span style="color: var(--gold);">Walk-ins at the bar · Reserve for tables ↑</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-grid">
+      <div>
+        <div class="mark">Noir <span style="color: var(--gold);">·</span> Café</div>
+        <p style="color: var(--cream-dim); font-size: 14px;">
+          A quiet corner of somewhere elsewhere.<br/>
+          Café by day, bistro by night.<br/>
+          Exeter, since 2021.
+        </p>
+      </div>
+      <div>
+        <h5>The room</h5>
+        <ul>
+          <li><a href="#menu">Day menu</a></li>
+          <li><a href="#menu">Evening menu</a></li>
+          <li><a href="#menu">Wine list</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Bookings</h5>
+        <ul>
+          <li><a href="#book">Reserve a table</a></li>
+          <li><a href="#events">Events</a></li>
+          <li><a href="mailto:hello@noir.cafe">Private hire</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Get in touch</h5>
+        <ul>
+          <li><a href="mailto:hello@noir.cafe">hello@noir.cafe</a></li>
+          <li><a href="tel:01392900124">01392 900 124</a></li>
+          <li><a href="#">@noir.cafe</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© Noir Café 2026</span>
+      <span>Always changing, never rushing</span>
+    </div>
+  </footer>
+
+  <div class="sticky-book" id="sticky">
+    <span class="text">A table, <em>tonight at 19:00</em>? Two seats left.</span>
+    <a class="btn btn-primary" href="#book">Reserve →</a>
+  </div>
+
+  <div class="toast" id="toast">Reservation request received.</div>
+
+<script>
+  const nav = document.getElementById('nav');
+  const sticky = document.getElementById('sticky');
+  const heroEnd = document.querySelector('.hero').offsetHeight;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > 80) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+    const book = document.getElementById('book').getBoundingClientRect();
+    if (y > heroEnd - 200 && book.top > 80) sticky.classList.add('show');
+    else sticky.classList.remove('show');
+  });
+
+  document.querySelectorAll('.menu-tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.menu-tab').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.menu-panel').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      document.querySelector('.menu-panel[data-panel="' + t.dataset.panel + '"]').classList.add('active');
+    });
+  });
+
+  (function () {
+    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const today = days[new Date().getDay()].toLowerCase();
+    document.querySelectorAll('.hours li').forEach(li => {
+      const d = li.querySelector('.day')?.textContent.trim().toLowerCase();
+      if (d === today) li.classList.add('today');
+    });
+  })();
+
+  const partyBtns = document.querySelectorAll('.party-btn');
+  let partySize = '2';
+  partyBtns.forEach(b => {
+    b.addEventListener('click', () => {
+      partyBtns.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      partySize = b.dataset.size;
+      updateSummary();
+    });
+  });
+
+  const dayTimes = ['08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30'];
+  const eveTimes = ['18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30'];
+  const taken = new Set(['12:30','13:00','19:30','20:00','20:30']);
+  let selectedTime = '19:00';
+
+  function renderSlots() {
+    const service = document.getElementById('b-service').value;
+    const times = service === 'day' ? dayTimes : eveTimes;
+    if (!times.includes(selectedTime)) selectedTime = times[2];
+    const wrap = document.getElementById('slots');
+    while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
+    times.forEach(t => {
+      const isTaken = taken.has(t);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'slot' + (t === selectedTime && !isTaken ? ' active' : '');
+      btn.dataset.time = t;
+      btn.disabled = isTaken;
+      btn.textContent = t;
+      btn.addEventListener('click', () => {
+        if (btn.disabled) return;
+        document.querySelectorAll('.slot').forEach(x => x.classList.remove('active'));
+        btn.classList.add('active');
+        selectedTime = t;
+        updateSummary();
+      });
+      wrap.appendChild(btn);
+    });
+  }
+  document.getElementById('b-service').addEventListener('change', renderSlots);
+  renderSlots();
+
+  const dateInput = document.getElementById('b-date');
+  const today = new Date();
+  const tomorrow = new Date(today.getTime() + 86400000);
+  const fmt = (d) => d.toISOString().slice(0, 10);
+  dateInput.min = fmt(today);
+  dateInput.value = fmt(tomorrow);
+  const maxD = new Date(today.getTime() + 42 * 86400000);
+  dateInput.max = fmt(maxD);
+  dateInput.addEventListener('change', updateSummary);
+
+  function updateSummary() {
+    document.getElementById('s-size').textContent = partySize === '7' ? '7+' : partySize;
+    const d = new Date(dateInput.value);
+    const isToday = d.toDateString() === today.toDateString();
+    const isTomorrow = d.toDateString() === tomorrow.toDateString();
+    let dateLabel;
+    if (isToday) dateLabel = 'today';
+    else if (isTomorrow) dateLabel = 'tomorrow';
+    else dateLabel = d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
+    document.getElementById('s-date').textContent = dateLabel;
+    document.getElementById('s-time').textContent = selectedTime;
+  }
+  updateSummary();
+
+  document.querySelectorAll('.event-row').forEach(r => {
+    r.addEventListener('click', () => {
+      document.getElementById('book').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('b-notes').value = 'Interested in: ' + r.dataset.event;
+      document.getElementById('b-notes').focus();
+    });
+  });
+
+  function submitBooking() {
+    const name = (document.getElementById('b-name').value || '').split(' ')[0] || 'you';
+    const d = new Date(dateInput.value);
+    const dateLabel = d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+    const t = document.getElementById('toast');
+    // Safe DOM construction
+    while (t.firstChild) t.removeChild(t.firstChild);
+    t.appendChild(document.createTextNode('Reservation requested · '));
+    const em = document.createElement('em');
+    em.textContent = dateLabel + ' at ' + selectedTime;
+    t.appendChild(em);
+    t.appendChild(document.createTextNode(' for ' + name + '.'));
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4500);
+  }
+</script>
+</body>
+</html>
