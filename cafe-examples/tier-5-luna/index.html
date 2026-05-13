@@ -359,7 +359,11 @@ footer { background: #080c10; padding: var(--space-lg) var(--space-md) var(--spa
 
 /* Fallback: if GSAP CDN fails, hero content must still be visible */
 .hero-word, .hero-location, .hero-tagline, .hero-btns, .hours-badge, .hero-moon-wrap {
-  opacity: 1; transform: none;
+  opacity: 1;
+}
+/* hero-moon-wrap excluded here — it needs transform: translateY(-50%) for vertical centering */
+.hero-word, .hero-location, .hero-tagline, .hero-btns, .hours-badge {
+  transform: none;
 }
 
 @media (max-width: 767px) {
