@@ -14,7 +14,8 @@
       "Bash(curl -s -o /dev/null -w '%{http_code} %{url_effective}\\\\n' 'https://images.unsplash.com/photo-1442975631115-1c2dcc3c4bb6?w=400&q=60' 'https://images.unsplash.com/photo-1442550528053-c431ecb55509?w=400&q=60' 'https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=400&q=60' 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=60' 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400&q=60')",
       "Bash(curl -s -o /dev/null -w \"GET / → HTTP %{http_code} · %{time_total}s\\\\n\" http://localhost:3000/)",
       "PowerShell(Get-ChildItem \"c:\\\\Website-Design-Examples\\\\luna-cafe\\\\\" -ErrorAction SilentlyContinue | Select-Object Name, Length; if \\(-not \\(Test-Path \"c:\\\\Website-Design-Examples\\\\luna-cafe\\\\\"\\)\\) { \"Directory does not exist\" } else { \"Directory exists but may be empty\" })",
-      "PowerShell(\\(Get-Item \"c:\\\\Website-Design-Examples\\\\luna-cafe\\\\index.html\"\\).Length; Select-String -Path \"c:\\\\Website-Design-Examples\\\\luna-cafe\\\\index.html\" -Pattern \"\\(menuData|gsap|confetti|localStorage|scrolly\\)\" | Measure-Object | Select-Object Count)"
+      "PowerShell(\\(Get-Item \"c:\\\\Website-Design-Examples\\\\luna-cafe\\\\index.html\"\\).Length; Select-String -Path \"c:\\\\Website-Design-Examples\\\\luna-cafe\\\\index.html\" -Pattern \"\\(menuData|gsap|confetti|localStorage|scrolly\\)\" | Measure-Object | Select-Object Count)",
+      "Bash(mkdir \"c:\\\\Website-Design-Examples\\\\cafe-examples\\\\tier-5-vesper\")"
     ],
     "additionalDirectories": [
       "c:\\Website-Design-Examples\\cafe-examples"
