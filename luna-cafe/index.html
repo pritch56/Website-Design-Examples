@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luna Cafe Exeter — Health &amp; Wellness Café</title>
+  <meta name="description" content="Luna Cafe on Queen Street Exeter. Health &amp; wellness café serving fresh juices, smoothies, wellness bowls and speciality coffee. Fully gluten-free, vegetarian and mostly vegan." />
+  <meta property="og:title" content="Luna Cafe Exeter — Health &amp; Wellness Café" />
+  <meta property="og:description" content="Elevate Your Everyday. Fully gluten-free, vegetarian &amp; mostly vegan café on Queen Street, Exeter." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --navy:   #0D1117;
+  --navy2:  #141B24;
+  --cream:  #F5F0E8;
+  --cream2: #EDE7DA;
+  --sage:   #8BA888;
+  --gold:   #C9A96E;
+  --gold2:  #D4B87A;
+  --blush:  #E8C5B0;
+  --muted:  #6B7280;
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 8rem;
+  --font-d: 'Cormorant Garamond', serif;
+  --font-b: 'DM Sans', sans-serif;
+  --radius: 14px;
+  --tr: 0.3s ease;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-b); background: var(--cream); color: var(--navy); overflow-x: hidden; }
+button { font-family: var(--font-b); cursor: pointer; border: none; background: none; }
+a { color: inherit; text-decoration: none; }
+input, select, textarea { font-family: var(--font-b); }
+
+/* ═══════════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════════ */
+.cursor {
+  position: fixed; top: 0; left: 0; width: 26px; height: 26px;
+  pointer-events: none; z-index: 9999; transform: translate(-50%,-50%);
+  display: none; transition: opacity 0.2s;
+}
+@media (hover: hover) and (pointer: fine) { .cursor { display: block; } body { cursor: none; } }
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+#navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 1.25rem var(--space-md);
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+}
+#navbar.scrolled {
+  background: rgba(13,17,23,0.88); backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(201,169,110,0.15);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-family: var(--font-d); font-size: 1.5rem; font-weight: 600;
+  color: var(--cream); letter-spacing: 0.12em;
+}
+.nav-logo svg { width: 22px; height: 22px; fill: var(--gold); flex-shrink: 0; }
+.nav-links { display: flex; gap: 2.2rem; list-style: none; }
+.nav-links a {
+  font-size: 0.88rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(245,240,232,0.8); transition: color var(--tr); position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -3px; left: 0;
+  width: 0; height: 1px; background: var(--gold); transition: width var(--tr);
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { width: 100%; }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+}
+.hamburger span { display: block; width: 24px; height: 1.5px; background: var(--cream); transition: all var(--tr); }
+@media (max-width: 767px) { .nav-links { display: none; } .hamburger { display: flex; } }
+
+/* Mobile nav */
+#mobile-nav {
+  position: fixed; inset: 0; z-index: 999; background: var(--navy);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2.5rem; transform: translateX(100%); transition: transform 0.4s cubic-bezier(.77,0,.18,1);
+}
+#mobile-nav.open { transform: translateX(0); }
+#mobile-nav a { font-family: var(--font-d); font-size: 2.5rem; font-weight: 500; color: var(--cream); letter-spacing: 0.08em; transition: color var(--tr); }
+#mobile-nav a:hover { color: var(--gold); }
+#mobile-nav-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: var(--cream); font-size: 1.8rem; cursor: pointer; }
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+#hero {
+  position: relative; min-height: 100vh; min-height: 100dvh; background: var(--navy);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+#star-canvas { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
+#star-canvas.visible { opacity: 1; }
+/* Outer wrapper: owns positioning transform — GSAP entrance animates this */
+.hero-moon-wrap {
+  position: absolute; right: 8%; top: 50%; transform: translateY(-50%);
+  width: clamp(160px, 22vw, 320px); pointer-events: none;
+}
+/* Inner SVG: owns the float animation — completely separate from positioning */
+.hero-moon {
+  width: 100%; display: block;
+  animation: moonFloat 6s ease-in-out infinite;
+}
+@keyframes moonFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-18px); }
+}
+.hero-content { position: relative; z-index: 2; text-align: center; padding: var(--space-md); max-width: 800px; }
+.hero-headline { font-family: var(--font-d); font-size: clamp(3.5rem, 9vw, 7.5rem); font-weight: 600; color: var(--cream); letter-spacing: 0.18em; line-height: 0.95; margin-bottom: 1.4rem; }
+.hero-word { display: inline-block; }
+.hero-location { font-size: 1rem; font-weight: 400; color: var(--sage); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 1rem; }
+.hero-tagline { font-family: var(--font-d); font-size: clamp(1.3rem, 2.5vw, 1.8rem); color: rgba(245,240,232,0.75); font-style: italic; margin-bottom: 2.4rem; }
+.hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+.btn-gold { background: var(--gold); color: var(--navy); padding: 0.9rem 2.2rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.06em; transition: background var(--tr), transform var(--tr), box-shadow var(--tr); }
+.btn-gold:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(201,169,110,0.35); }
+.btn-ghost { background: transparent; color: var(--cream); padding: 0.9rem 2.2rem; border-radius: 50px; font-size: 0.9rem; font-weight: 500; border: 1.5px solid rgba(245,240,232,0.5); transition: all var(--tr); }
+.btn-ghost:hover { background: rgba(245,240,232,0.08); border-color: var(--cream); transform: translateY(-2px); }
+.hours-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(245,240,232,0.08); border: 1px solid rgba(245,240,232,0.2); color: rgba(245,240,232,0.7); padding: 0.5rem 1.4rem; border-radius: 50px; font-size: 0.82rem; letter-spacing: 0.12em; }
+.hero-scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.4rem; color: rgba(245,240,232,0.4); font-size: 0.75rem; letter-spacing: 0.1em; animation: scrollHint 2s ease-in-out infinite; }
+@keyframes scrollHint { 0%,100% { transform: translateX(-50%); } 50% { transform: translateX(-50%) translateY(6px); } }
+
+/* ═══════════════════════════════════════════
+   SCROLLYTELLING
+═══════════════════════════════════════════ */
+#scrollytelling { position: relative; height: 300vh; }
+.scrolly-bg-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; background: linear-gradient(135deg, #0f1f14 0%, #1a2f1e 40%, #1f1a0f 100%); }
+.scrolly-orbs { position: absolute; inset: 0; overflow: hidden; }
+.orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; animation: orbPulse 8s ease-in-out infinite; }
+.orb-1 { width: 50vw; height: 50vw; background: radial-gradient(circle, #8BA888, transparent); top: -10%; left: -10%; }
+.orb-2 { width: 40vw; height: 40vw; background: radial-gradient(circle, #C9A96E, transparent); top: 30%; right: -5%; animation-delay: 3s; }
+.orb-3 { width: 35vw; height: 35vw; background: radial-gradient(circle, #E8C5B0, transparent); bottom: -10%; left: 30%; animation-delay: 5s; }
+@keyframes orbPulse { 0%,100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.08); } }
+.scrolly-panels-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+.scrolly-panel { height: 100vh; display: flex; align-items: center; justify-content: center; opacity: 0; }
+.scrolly-panel-inner { text-align: center; padding: var(--space-md); }
+.scrolly-stat { font-family: var(--font-d); font-size: clamp(2.5rem, 7vw, 6rem); font-weight: 600; color: var(--cream); line-height: 1.05; display: block; }
+.scrolly-sub  { font-family: var(--font-d); font-size: clamp(1.5rem, 3.5vw, 3rem); font-style: italic; color: var(--gold); margin-top: 0.5rem; display: block; }
+
+/* ═══════════════════════════════════════════
+   SHARED
+═══════════════════════════════════════════ */
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+.section-title { font-family: var(--font-d); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 600; line-height: 1.1; margin-bottom: var(--space-md); }
+.section-title.light { color: var(--cream); }
+.section-title.dark  { color: var(--navy); }
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ═══════════════════════════════════════════
+   MENU
+═══════════════════════════════════════════ */
+#menu { background: var(--cream); padding: var(--space-xl) var(--space-md); }
+.menu-header { text-align: center; margin-bottom: var(--space-lg); }
+.menu-search-wrap { position: relative; max-width: 520px; margin: 0 auto var(--space-md); }
+.menu-search { width: 100%; padding: 1rem 1.2rem 1rem 3.2rem; border: 1.5px solid rgba(13,17,23,0.15); border-radius: 50px; background: white; font-size: 0.95rem; outline: none; transition: border-color var(--tr), box-shadow var(--tr); }
+.menu-search:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,169,110,0.15); }
+.menu-search-icon { position: absolute; left: 1.1rem; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.menu-cats { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin-bottom: var(--space-md); }
+.cat-btn { padding: 0.55rem 1.4rem; border-radius: 50px; font-size: 0.85rem; font-weight: 500; border: 1.5px solid rgba(13,17,23,0.18); background: white; color: var(--navy); transition: all var(--tr); white-space: nowrap; }
+.cat-btn:hover { border-color: var(--gold); color: var(--gold); }
+.cat-btn.active { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+.filter-wrap { max-width: 700px; margin: 0 auto var(--space-md); }
+.filter-toggle-btn { display: flex; align-items: center; gap: 0.5rem; margin: 0 auto; font-size: 0.85rem; font-weight: 500; color: var(--muted); transition: color var(--tr); }
+.filter-toggle-btn:hover { color: var(--navy); }
+.filter-panel { display: none; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 1rem; }
+.filter-panel.open { display: flex; }
+.filter-chip { display: flex; align-items: center; gap: 0.4rem; padding: 0.45rem 1rem; border-radius: 50px; font-size: 0.82rem; font-weight: 500; border: 1.5px solid rgba(139,168,136,0.5); background: white; color: var(--sage); transition: all var(--tr); }
+.filter-chip.active { background: var(--sage); color: white; border-color: var(--sage); }
+.active-filter-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: var(--space-sm); }
+.af-chip { display: flex; align-items: center; gap: 0.35rem; padding: 0.3rem 0.85rem; border-radius: 50px; background: var(--navy); color: var(--cream); font-size: 0.78rem; font-weight: 500; }
+.af-chip button { background: none; border: none; color: inherit; cursor: pointer; font-size: 1rem; line-height: 1; padding: 0; display: flex; align-items: center; }
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+.menu-card { background: white; border-radius: var(--radius); border: 1.5px solid rgba(13,17,23,0.07); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; transition: transform var(--tr), box-shadow var(--tr), border-color var(--tr); position: relative; overflow: hidden; }
+.menu-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(13,17,23,0.1); border-color: var(--gold); }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+.card-name { font-family: var(--font-d); font-size: 1.35rem; font-weight: 600; color: var(--navy); line-height: 1.2; }
+.card-price { background: var(--gold); color: white; border-radius: 20px; padding: 0.25rem 0.75rem; font-size: 0.82rem; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
+.card-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.55; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tag { padding: 0.22rem 0.65rem; border-radius: 20px; font-size: 0.73rem; font-weight: 500; }
+.tag-vegan { background: #e8f5e9; color: #2e7d32; }
+.tag-gf { background: #fff8e1; color: #f57f17; }
+.tag-protein { background: #e3f2fd; color: #1565c0; }
+.tag-raw { background: #f3e5f5; color: #6a1b9a; }
+.tag-adapt { background: #fce4ec; color: #880e4f; }
+.tag-other { background: var(--cream2); color: var(--navy); }
+.allergen-warn { display: flex; align-items: center; gap: 0.3rem; font-size: 0.75rem; color: #b45309; }
+.featured-badge { position: absolute; top: 1rem; right: 1rem; background: var(--gold); color: white; font-size: 0.7rem; font-weight: 600; padding: 0.22rem 0.6rem; border-radius: 12px; }
+.menu-empty { grid-column: 1/-1; text-align: center; padding: var(--space-lg); font-family: var(--font-d); font-size: 1.5rem; color: var(--muted); }
+
+/* ═══════════════════════════════════════════
+   BOOKING
+═══════════════════════════════════════════ */
+#booking { background: var(--navy); padding: var(--space-xl) var(--space-md); }
+.booking-inner { max-width: 680px; margin: 0 auto; }
+.booking-form { background: rgba(245,240,232,0.04); border: 1px solid rgba(245,240,232,0.1); border-radius: var(--radius); padding: var(--space-md); margin-top: var(--space-md); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+.form-field { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.1rem; }
+.form-field label { font-size: 0.82rem; font-weight: 500; color: rgba(245,240,232,0.7); letter-spacing: 0.05em; }
+.form-field input,.form-field select,.form-field textarea { background: rgba(245,240,232,0.06); border: 1.5px solid rgba(245,240,232,0.15); border-radius: 10px; padding: 0.85rem 1rem; color: var(--cream); font-size: 0.9rem; outline: none; transition: border-color var(--tr), box-shadow var(--tr); -webkit-appearance: none; appearance: none; }
+.form-field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C9A96E' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.9rem center; background-size: 16px; padding-right: 2.5rem; }
+.form-field select option { background: #141B24; color: var(--cream); }
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,169,110,0.12); }
+.form-field.error input,.form-field.error select,.form-field.error textarea { border-color: #ef4444; }
+.field-error { font-size: 0.78rem; color: #f87171; display: none; }
+.form-field.error .field-error { display: block; }
+.form-field textarea { resize: vertical; min-height: 90px; }
+.student-check { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.2rem; cursor: pointer; }
+.student-check input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+.student-check span { font-size: 0.85rem; color: rgba(245,240,232,0.7); line-height: 1.5; }
+.student-check .gold-text { color: var(--gold); font-weight: 600; }
+.btn-book { width: 100%; padding: 1.1rem; background: var(--gold); color: var(--navy); border-radius: 50px; font-size: 1rem; font-weight: 600; letter-spacing: 0.06em; transition: background var(--tr), transform var(--tr), box-shadow var(--tr); }
+.btn-book:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,169,110,0.3); }
+.view-bookings-link { display: block; text-align: center; margin-top: 1rem; font-size: 0.82rem; color: rgba(245,240,232,0.45); cursor: pointer; transition: color var(--tr); }
+.view-bookings-link:hover { color: var(--gold); }
+
+/* Success overlay */
+#booking-success { position: fixed; inset: 0; z-index: 2000; background: rgba(13,17,23,0.97); display: flex; align-items: center; justify-content: center; padding: var(--space-md); opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+#booking-success.visible { opacity: 1; pointer-events: all; }
+.success-card { background: var(--navy2); border: 1px solid rgba(201,169,110,0.3); border-radius: 20px; padding: var(--space-md); text-align: center; max-width: 480px; }
+.success-moon { width: 80px; height: 80px; margin: 0 auto 1.2rem; animation: moonPulse 2s ease-in-out infinite; }
+@keyframes moonPulse { 0%,100% { filter: drop-shadow(0 0 8px rgba(201,169,110,0.5)); } 50% { filter: drop-shadow(0 0 24px rgba(201,169,110,0.9)); } }
+.success-title { font-family: var(--font-d); font-size: 2rem; font-weight: 600; color: var(--cream); margin-bottom: 0.8rem; }
+.success-msg { font-size: 0.9rem; color: rgba(245,240,232,0.7); line-height: 1.7; margin-bottom: 1.5rem; }
+.success-close { background: var(--gold); color: var(--navy); border-radius: 50px; padding: 0.8rem 2rem; font-weight: 600; transition: background var(--tr); }
+.success-close:hover { background: var(--gold2); }
+
+/* Bookings modal */
+#bookings-modal { position: fixed; inset: 0; z-index: 1999; background: rgba(13,17,23,0.92); display: flex; align-items: center; justify-content: center; padding: var(--space-md); opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+#bookings-modal.visible { opacity: 1; pointer-events: all; }
+.modal-card { background: var(--navy2); border: 1px solid rgba(245,240,232,0.1); border-radius: 16px; padding: var(--space-md); max-width: 540px; width: 100%; max-height: 80vh; overflow-y: auto; }
+.modal-card h3 { font-family: var(--font-d); font-size: 1.6rem; color: var(--cream); margin-bottom: 1rem; }
+.modal-booking { background: rgba(245,240,232,0.05); border-radius: 10px; padding: 1rem; margin-bottom: 0.75rem; border-left: 3px solid var(--gold); }
+.modal-booking p { font-size: 0.85rem; color: rgba(245,240,232,0.8); margin-bottom: 0.25rem; }
+.modal-close { background: none; border: 1px solid rgba(245,240,232,0.2); color: var(--cream); border-radius: 8px; padding: 0.6rem 1.2rem; margin-top: 1rem; transition: all var(--tr); }
+.modal-close:hover { border-color: var(--gold); color: var(--gold); }
+.no-bookings { color: rgba(245,240,232,0.4); font-size: 0.9rem; font-style: italic; }
+
+/* ═══════════════════════════════════════════
+   LOYALTY
+═══════════════════════════════════════════ */
+#rewards { background: var(--cream); padding: var(--space-xl) var(--space-md); }
+.rewards-inner { max-width: 640px; margin: 0 auto; text-align: center; }
+.loyalty-card { background: var(--navy); border-radius: 20px; padding: 2.5rem 2rem; margin: var(--space-md) auto; max-width: 500px; box-shadow: 0 20px 60px rgba(13,17,23,0.2); position: relative; overflow: hidden; }
+.loyalty-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at top right, rgba(201,169,110,0.15), transparent 60%); pointer-events: none; }
+.loyalty-title { font-family: var(--font-d); font-size: 1.3rem; font-weight: 600; color: var(--gold); letter-spacing: 0.12em; margin-bottom: 0.4rem; }
+.loyalty-sub { font-size: 0.82rem; color: rgba(245,240,232,0.5); margin-bottom: 1.8rem; }
+.stamps-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+.stamp { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1.5px solid rgba(201,169,110,0.3); transition: all 0.3s ease; }
+.stamp.earned { background: rgba(201,169,110,0.15); border-color: var(--gold); }
+.stamp svg { width: 60%; height: 60%; }
+.stamp:not(.earned) svg { opacity: 0.22; }
+.stamp.earned svg { opacity: 1; }
+.stamp.new-stamp { animation: stampPop 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes stampPop { 0% { transform: scale(0.3); } 100% { transform: scale(1); } }
+.loyalty-count { font-size: 0.9rem; color: rgba(245,240,232,0.7); margin-bottom: 1.2rem; }
+.loyalty-count strong { color: var(--gold); font-size: 1.1rem; }
+.btn-add-stamp { background: var(--gold); color: var(--navy); border-radius: 50px; padding: 0.85rem 2rem; font-weight: 600; font-size: 0.9rem; transition: all var(--tr); }
+.btn-add-stamp:hover { background: var(--gold2); transform: translateY(-2px); }
+.loyalty-reward-banner { background: linear-gradient(135deg, var(--gold), #a0793a); border-radius: 12px; padding: 1.2rem; margin-top: 1.2rem; display: none; }
+.loyalty-reward-banner.show { display: block; }
+.loyalty-reward-banner h4 { font-family: var(--font-d); font-size: 1.4rem; color: white; margin-bottom: 0.4rem; }
+.voucher-code { font-family: 'Courier New', monospace; font-size: 1.2rem; font-weight: 700; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 0.4rem 0.8rem; color: white; letter-spacing: 0.15em; display: inline-block; }
+.loyalty-reset { display: block; margin: 1rem auto 0; font-size: 0.75rem; color: rgba(13,17,23,0.35); cursor: pointer; transition: color var(--tr); }
+.loyalty-reset:hover { color: var(--navy); }
+.rewards-history { margin-top: var(--space-md); text-align: left; }
+.history-item { background: white; border-radius: 10px; padding: 0.8rem 1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.8rem; font-size: 0.85rem; border: 1px solid rgba(13,17,23,0.07); }
+.voucher-mini { font-family: monospace; font-weight: 700; color: var(--gold); background: rgba(201,169,110,0.1); padding: 0.2rem 0.5rem; border-radius: 6px; }
+
+/* ═══════════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════════ */
+#about { background: var(--navy); padding: var(--space-xl) var(--space-md); }
+.about-grid { display: grid; grid-template-columns: 1fr auto; gap: var(--space-lg); align-items: center; }
+@media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; } }
+.about-text p { font-family: var(--font-d); font-size: 1.15rem; color: rgba(245,240,232,0.75); line-height: 1.8; margin-bottom: 1rem; }
+.about-avatar { width: 220px; height: 220px; border-radius: 50%; background: linear-gradient(135deg, var(--navy2), #1e2d1e); border: 3px solid rgba(201,169,110,0.4); display: flex; align-items: center; justify-content: center; font-family: var(--font-d); font-size: 3rem; font-weight: 600; color: var(--gold); flex-shrink: 0; box-shadow: 0 0 60px rgba(201,169,110,0.15); }
+@media (max-width: 768px) { .about-avatar { width: 140px; height: 140px; font-size: 2rem; margin: 0 auto; } }
+.stats-row { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: var(--space-md); }
+.stat-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: rgba(245,240,232,0.65); }
+
+/* ═══════════════════════════════════════════
+   REVIEWS
+═══════════════════════════════════════════ */
+#reviews { background: var(--cream); padding: var(--space-xl) var(--space-md); overflow: hidden; }
+.reviews-header { text-align: center; margin-bottom: var(--space-lg); }
+.reviews-track-wrap { position: relative; overflow: hidden; }
+.reviews-track-wrap::before,.reviews-track-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none; }
+.reviews-track-wrap::before { left: 0; background: linear-gradient(to right, var(--cream), transparent); }
+.reviews-track-wrap::after  { right: 0; background: linear-gradient(to left, var(--cream), transparent); }
+.reviews-track { display: flex; gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0.5rem 2rem; }
+.reviews-track::-webkit-scrollbar { display: none; }
+.review-card { flex-shrink: 0; width: 340px; background: white; border-radius: var(--radius); padding: 2rem; scroll-snap-align: start; border: 1px solid rgba(13,17,23,0.07); box-shadow: 0 4px 20px rgba(13,17,23,0.06); }
+.review-stars { color: var(--gold); font-size: 1rem; letter-spacing: 2px; margin-bottom: 1rem; }
+.review-quote { font-family: var(--font-d); font-size: 1.15rem; font-style: italic; color: var(--navy); line-height: 1.65; margin-bottom: 1.2rem; }
+.review-author { font-size: 0.82rem; color: var(--muted); }
+.carousel-dots { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.5rem; }
+.c-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(13,17,23,0.2); transition: all var(--tr); cursor: pointer; border: none; }
+.c-dot.active { background: var(--navy); width: 20px; border-radius: 4px; }
+
+/* ═══════════════════════════════════════════
+   EVENTS
+═══════════════════════════════════════════ */
+#events { background: var(--navy); padding: var(--space-xl) var(--space-md); }
+.events-header { text-align: center; margin-bottom: var(--space-lg); }
+.events-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto var(--space-lg); }
+.event-card { background: rgba(245,240,232,0.04); border: 1px solid rgba(245,240,232,0.1); border-radius: var(--radius); padding: 2rem; transition: border-color var(--tr), background var(--tr); }
+.event-card:hover { border-color: var(--gold); background: rgba(201,169,110,0.06); }
+.event-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.event-card h3 { font-family: var(--font-d); font-size: 1.5rem; color: var(--cream); margin-bottom: 0.6rem; }
+.event-card p { font-size: 0.9rem; color: rgba(245,240,232,0.6); line-height: 1.6; }
+.events-cta { text-align: center; }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer { background: #080c10; padding: var(--space-lg) var(--space-md) var(--space-md); border-top: 1px solid rgba(201,169,110,0.15); }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-top { display: grid; grid-template-columns: auto 1fr auto; gap: var(--space-md); align-items: start; margin-bottom: var(--space-md); padding-bottom: var(--space-md); border-bottom: 1px solid rgba(245,240,232,0.07); }
+@media (max-width: 768px) { .footer-top { grid-template-columns: 1fr; text-align: center; } }
+.footer-brand { font-family: var(--font-d); font-size: 1.8rem; font-weight: 600; color: var(--cream); letter-spacing: 0.12em; }
+.footer-brand small { display: block; font-family: var(--font-b); font-size: 0.8rem; letter-spacing: 0.1em; color: var(--gold); margin-top: 0.2rem; font-style: italic; }
+.footer-info p { font-size: 0.85rem; color: rgba(245,240,232,0.5); line-height: 2; }
+.footer-social { display: flex; flex-direction: column; gap: 0.5rem; }
+@media (max-width: 768px) { .footer-social { flex-direction: row; justify-content: center; } }
+.social-link { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: rgba(245,240,232,0.55); transition: color var(--tr); }
+.social-link:hover { color: var(--gold); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; font-size: 0.78rem; color: rgba(245,240,232,0.3); }
+
+/* ═══════════════════════════════════════════
+   ACCESSIBILITY
+═══════════════════════════════════════════ */
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+/* Fallback: if GSAP CDN fails, hero content must still be visible */
+.hero-word, .hero-location, .hero-tagline, .hero-btns, .hours-badge, .hero-moon-wrap {
+  opacity: 1; transform: none;
+}
+
+@media (max-width: 767px) {
+  :root { --space-lg: 3rem; --space-xl: 5rem; }
+  .hero-moon-wrap { display: none; }
+  .about-avatar { order: -1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .hero-moon, .orb { animation: none; }
+  .hero-moon-wrap { transform: translateY(-50%) !important; }
+}
+@media print {
+  #navbar,#booking,#rewards,.hero-btns,#events,footer { display: none; }
+  .menu-card { break-inside: avoid; border: 1px solid #ccc; }
+}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 4C12 4 7 9 7 14C7 20 12 23 18 23C14 21 11 18 11 14C11 10 13.5 6.5 18 4Z" fill="#C9A96E" opacity="0.95"/>
+  </svg>
+</div>
+
+<!-- Mobile nav -->
+<div id="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <button id="mobile-nav-close" aria-label="Close menu">✕</button>
+  <a href="#menu"    class="mobile-link">Menu</a>
+  <a href="#booking" class="mobile-link">Book</a>
+  <a href="#rewards" class="mobile-link">Rewards</a>
+  <a href="#about"   class="mobile-link">About</a>
+  <a href="#events"  class="mobile-link">Find Us</a>
+</div>
+
+<!-- ─── NAVIGATION ─── -->
+<nav id="navbar" aria-label="Main navigation">
+  <a href="#hero" class="nav-logo" aria-label="Luna Cafe home">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    LUNA CAFE
+  </a>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#booking">Book</a></li>
+    <li><a href="#rewards">Rewards</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#events">Find Us</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero" aria-label="Hero">
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
+  <!-- Outer wrapper positions the moon; GSAP animates wrapper for entrance.
+       Inner SVG runs moonFloat — fully independent, no transform conflict. -->
+  <div class="hero-moon-wrap" aria-hidden="true">
+    <svg class="hero-moon" viewBox="0 0 300 300" fill="none">
+      <defs>
+        <filter id="moon-glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="18" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <path d="M210 60C140 60 85 115 85 185C85 255 140 295 210 295C170 275 148 230 148 185C148 140 168 95 210 60Z" fill="#C9A96E" filter="url(#moon-glow)" opacity="0.88"/>
+      <circle cx="175" cy="115" r="4" fill="rgba(245,240,232,0.6)"/>
+      <circle cx="195" cy="155" r="2.5" fill="rgba(245,240,232,0.4)"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <!-- h1 first per spec; location text is the subheading below it -->
+    <h1 class="hero-headline" id="hero-headline">LUNA CAFE</h1>
+    <p class="hero-location">Health &amp; Wellness · Queen Street, Exeter</p>
+    <p class="hero-tagline">Elevate Your Everyday 🌙</p>
+    <div class="hero-btns">
+      <button class="btn-gold" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book a Table</button>
+      <button class="btn-ghost" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Explore Our Menu</button>
+    </div>
+    <div class="hours-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      Mon–Sat · 9am–5pm
+    </div>
+  </div>
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <span>scroll</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<!-- ─── SCROLLYTELLING ─── -->
+<section id="scrollytelling" aria-label="Key facts about Luna Cafe">
+  <div class="scrolly-bg-sticky">
+    <div class="scrolly-orbs" aria-hidden="true">
+      <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+    </div>
+  </div>
+  <div class="scrolly-panels-wrapper">
+    <div class="scrolly-panel"><div class="scrolly-panel-inner"><span class="scrolly-stat">100% Gluten Free.</span><span class="scrolly-sub">Every single dish.</span></div></div>
+    <div class="scrolly-panel"><div class="scrolly-panel-inner"><span class="scrolly-stat">Fully Vegetarian.</span><span class="scrolly-sub">Mostly Vegan.</span></div></div>
+    <div class="scrolly-panel"><div class="scrolly-panel-inner"><span class="scrolly-stat">Devon's Best Café</span><span class="scrolly-sub">Finalist 2024 💛</span></div></div>
+  </div>
+</section>
+
+<!-- ─── MENU ─── -->
+<section id="menu" aria-label="Our menu">
+  <div class="section-inner">
+    <div class="menu-header reveal">
+      <p class="section-label">What We Serve</p>
+      <h2 class="section-title dark">Our Menu</h2>
+    </div>
+    <div class="menu-search-wrap reveal">
+      <svg class="menu-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="search" id="menu-search" class="menu-search" placeholder="Search menu…" aria-label="Search menu items" />
+    </div>
+    <div class="menu-cats reveal" role="tablist" aria-label="Menu categories">
+      <button class="cat-btn active" data-cat="all" role="tab" aria-selected="true">All</button>
+      <button class="cat-btn" data-cat="smoothies"   role="tab" aria-selected="false">Smoothies</button>
+      <button class="cat-btn" data-cat="bowls"       role="tab" aria-selected="false">Bowls</button>
+      <button class="cat-btn" data-cat="breakfast"   role="tab" aria-selected="false">Breakfast</button>
+      <button class="cat-btn" data-cat="hot-drinks"  role="tab" aria-selected="false">Hot Drinks</button>
+      <button class="cat-btn" data-cat="cold-drinks" role="tab" aria-selected="false">Cold Drinks</button>
+      <button class="cat-btn" data-cat="snacks"      role="tab" aria-selected="false">Snacks</button>
+      <button class="cat-btn" data-cat="add-ons"     role="tab" aria-selected="false">Add-ons</button>
+    </div>
+    <div class="filter-wrap reveal">
+      <button class="filter-toggle-btn" id="filter-toggle" aria-expanded="false" aria-controls="filter-panel">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        Dietary filters
+      </button>
+      <div class="filter-panel" id="filter-panel" aria-hidden="true">
+        <button class="filter-chip" data-filter="vegan"       aria-pressed="false">🌱 Vegan</button>
+        <button class="filter-chip" data-filter="gluten-free" aria-pressed="false">✨ Gluten-Free</button>
+        <button class="filter-chip" data-filter="nut-free"    aria-pressed="false">🥜 Nut-Free</button>
+        <button class="filter-chip" data-filter="high-protein" aria-pressed="false">💪 High Protein</button>
+        <button class="filter-chip" data-filter="raw"         aria-pressed="false">🌿 Raw</button>
+        <button class="filter-chip" data-filter="adaptogen"   aria-pressed="false">🍄 Adaptogen</button>
+      </div>
+    </div>
+    <div class="active-filter-chips" id="active-chips" aria-live="polite"></div>
+    <div class="menu-grid" id="menu-grid" role="list" aria-label="Menu items" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ─── BOOKING ─── -->
+<section id="booking" aria-label="Book a table">
+  <div class="booking-inner">
+    <p class="section-label" style="color:var(--sage)">Reserve Your Spot</p>
+    <h2 class="section-title light reveal">Book a Table</h2>
+    <form class="booking-form" id="booking-form" novalidate aria-label="Table booking form">
+      <div class="form-row">
+        <div class="form-field" id="ff-name">
+          <label for="b-name">Full Name</label>
+          <input type="text" id="b-name" name="name" required autocomplete="name" />
+          <span class="field-error" role="alert">Please enter your full name.</span>
+        </div>
+        <div class="form-field" id="ff-email">
+          <label for="b-email">Email</label>
+          <input type="email" id="b-email" name="email" required autocomplete="email" />
+          <span class="field-error" role="alert">Please enter a valid email address.</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field" id="ff-phone">
+          <label for="b-phone">Phone</label>
+          <input type="tel" id="b-phone" name="phone" autocomplete="tel" />
+        </div>
+        <div class="form-field" id="ff-size">
+          <label for="b-size">Party Size</label>
+          <select id="b-size" name="size" required>
+            <option value="">Select…</option>
+            <option value="1">1 guest</option>
+            <option value="2">2 guests</option>
+            <option value="3">3 guests</option>
+            <option value="4">4 guests</option>
+            <option value="5">5 guests</option>
+            <option value="6">6 guests</option>
+            <option value="7">7 guests</option>
+            <option value="8">8 guests</option>
+            <option value="9+">9+ — please call us</option>
+          </select>
+          <span class="field-error" role="alert">Please select party size.</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field" id="ff-date">
+          <label for="b-date">Date</label>
+          <input type="date" id="b-date" name="date" required />
+          <span class="field-error" role="alert">Please choose a valid date (closed Sundays).</span>
+        </div>
+        <div class="form-field" id="ff-time">
+          <label for="b-time">Time</label>
+          <select id="b-time" name="time" required>
+            <option value="">Select…</option>
+            <option value="09:00">9:00 am</option><option value="09:30">9:30 am</option>
+            <option value="10:00">10:00 am</option><option value="10:30">10:30 am</option>
+            <option value="11:00">11:00 am</option><option value="11:30">11:30 am</option>
+            <option value="12:00">12:00 pm</option><option value="12:30">12:30 pm</option>
+            <option value="13:00">1:00 pm</option><option value="13:30">1:30 pm</option>
+            <option value="14:00">2:00 pm</option><option value="14:30">2:30 pm</option>
+            <option value="15:00">3:00 pm</option><option value="15:30">3:30 pm</option>
+            <option value="16:00">4:00 pm</option><option value="16:30">4:30 pm</option>
+          </select>
+          <span class="field-error" role="alert">Please select a time.</span>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="b-notes">Special Requirements / Allergies</label>
+        <textarea id="b-notes" name="notes" placeholder="Any dietary needs, accessibility requirements, or notes for us…"></textarea>
+      </div>
+      <label class="student-check">
+        <input type="checkbox" id="b-student" name="student" />
+        <span>I'm a student 🎓 — <span class="gold-text">we'll verify your student ID on arrival and you get 20% off!</span></span>
+      </label>
+      <button type="submit" class="btn-book">Confirm Booking ✨</button>
+    </form>
+    <button class="view-bookings-link" id="view-bookings-btn" aria-haspopup="dialog">View My Bookings</button>
+  </div>
+</section>
+
+<!-- ─── LOYALTY ─── -->
+<section id="rewards" aria-label="Loyalty rewards programme">
+  <div class="rewards-inner">
+    <p class="section-label">Regulars Love Us</p>
+    <h2 class="section-title dark reveal">LUNA REWARDS 🌙</h2>
+    <p style="color:var(--muted);margin-bottom:var(--space-md)" class="reveal">Collect 10 stamps, get your next drink free.</p>
+    <div class="loyalty-card">
+      <div class="loyalty-title">LUNA CAFE</div>
+      <div class="loyalty-sub">Your loyalty card</div>
+      <div class="stamps-grid" id="stamps-grid" role="list" aria-label="Loyalty stamps"></div>
+      <p class="loyalty-count" id="loyalty-count"></p>
+      <button class="btn-add-stamp" id="add-stamp-btn">+ Add a Visit</button>
+      <div class="loyalty-reward-banner" id="reward-banner">
+        <h4>🎉 FREE DRINK UNLOCKED!</h4>
+        <p style="color:rgba(255,255,255,0.85);font-size:0.85rem;margin-bottom:0.5rem">Your voucher code:</p>
+        <span class="voucher-code" id="voucher-code"></span>
+      </div>
+    </div>
+    <button class="loyalty-reset" id="loyalty-reset-btn">Reset Card (Demo)</button>
+    <div class="rewards-history" id="rewards-history" aria-label="Rewards history"></div>
+  </div>
+</section>
+
+<!-- ─── ABOUT ─── -->
+<section id="about" aria-label="About Luna Cafe">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p class="section-label" style="color:var(--sage)">Our Story</p>
+        <h2 class="section-title light" style="margin-bottom:1.5rem">A little corner of calm in the heart of Exeter</h2>
+        <p>Luna Cafe was born from a simple belief: that nourishing yourself should feel joyful, not complicated. Katie and Phil opened Luna on Queen Street to bring Exeter a truly health-forward space — somewhere you can slow down, sip something divine, and feel genuinely well.</p>
+        <p>Everything on our menu is gluten-free, vegetarian, and made with ingredients that love you back.</p>
+        <div class="stats-row">
+          <div class="stat-item">🏆 Devon's Best Café Finalist</div>
+          <div class="stat-item">⭐ 5.0 Google Rating</div>
+          <div class="stat-item">🌱 100% Gluten Free</div>
+          <div class="stat-item">♻️ Planet-Friendly Packaging</div>
+        </div>
+      </div>
+      <div class="about-avatar reveal" aria-label="Katie and Phil, founders of Luna Cafe">K+P</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── REVIEWS ─── -->
+<section id="reviews" aria-label="Customer reviews">
+  <div class="reviews-header reveal">
+    <p class="section-label">What Our Community Says</p>
+    <h2 class="section-title dark">Loved by Exeter 💛</h2>
+  </div>
+  <div class="reviews-track-wrap">
+    <div class="reviews-track" id="reviews-track" role="list"></div>
+  </div>
+  <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="Review navigation"></div>
+</section>
+
+<!-- ─── EVENTS ─── -->
+<section id="events" aria-label="Events and space hire">
+  <div class="section-inner">
+    <div class="events-header reveal">
+      <p class="section-label" style="color:var(--sage)">Beyond the Menu</p>
+      <h2 class="section-title light">Host Your Event at Luna</h2>
+    </div>
+    <div class="events-grid">
+      <div class="event-card reveal"><div class="event-icon">🧘</div><h3>Wellness Workshops</h3><p>From nutrition talks to mindfulness sessions — our calm space is perfect for intimate wellness gatherings.</p></div>
+      <div class="event-card reveal"><div class="event-icon">🌿</div><h3>Yoga &amp; Pilates</h3><p>Host your morning practice before or after hours. Popular with local instructors and studios across Exeter.</p></div>
+      <div class="event-card reveal"><div class="event-icon">🍽️</div><h3>Private Dining</h3><p>Exclusive use of Luna for birthdays, celebrations, or corporate wellness days. Bespoke menus available.</p></div>
+    </div>
+    <div class="events-cta reveal">
+      <button class="btn-gold" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Enquire About Booking</button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">🌙 LUNA CAFE<small>Elevate Your Everyday</small></div>
+      </div>
+      <div class="footer-info">
+        <p>📍 44 Queen Street, Exeter EX4 3SR</p>
+        <p>🕐 Monday–Saturday &nbsp;9am–5pm &nbsp;·&nbsp; Sunday Closed</p>
+        <p>🍃 Fully Gluten-Free · Vegetarian · Mostly Vegan</p>
+      </div>
+      <div class="footer-social">
+        <a href="#" class="social-link" aria-label="Luna Cafe on Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+          @lunacafe.juicebar
+        </a>
+        <a href="#" class="social-link" aria-label="Luna Cafe on Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Luna Cafe Exeter
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Luna Cafe Exeter. All rights reserved.</span>
+      <span>Menu items and prices subject to change. All dishes prepared in a kitchen that handles nuts.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── BOOKING SUCCESS ─── -->
+<div id="booking-success" role="dialog" aria-modal="true" aria-label="Booking confirmed">
+  <div class="success-card">
+    <svg class="success-moon" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <path d="M70 15C45 15 27 35 27 55C27 78 45 88 70 88C56 82 49 70 49 55C49 40 55 26 70 15Z" fill="#C9A96E"/>
+    </svg>
+    <h3 class="success-title">You're booked! ✨</h3>
+    <p class="success-msg" id="success-msg"></p>
+    <button class="success-close" id="success-close">Close</button>
+  </div>
+</div>
+
+<!-- ─── BOOKINGS MODAL ─── -->
+<div id="bookings-modal" role="dialog" aria-modal="true" aria-label="My bookings">
+  <div class="modal-card">
+    <h3>My Bookings</h3>
+    <div id="bookings-list"></div>
+    <button class="modal-close" id="modal-close">Close</button>
+  </div>
+</div>
+
+<script>
+/* ─── SECURITY: escape user-supplied strings before DOM insertion ─── */
+function esc(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+/* ─── MENU DATA ─── */
+const menuData = [
+  { id:1,  name:"Dream Date",                   category:"smoothies",  price:6.50, description:"Medjool dates, banana, almond milk, cinnamon, vanilla",                               tags:["vegan","gluten-free","nut-free-option"], allergens:["tree-nuts"], featured:true  },
+  { id:2,  name:"Green Power Bowl",              category:"bowls",      price:8.50, description:"Spinach, mango, banana, coconut milk, organic pea protein, power seed mix",          tags:["vegan","gluten-free","high-protein"],    allergens:[],            featured:true  },
+  { id:3,  name:"Açaí Sunrise",                 category:"bowls",      price:8.00, description:"Açaí, banana, blueberries, granola, coconut flakes, honey drizzle",                 tags:["vegan-option","gluten-free"],            allergens:[],            featured:true  },
+  { id:4,  name:"Luna Latte",                   category:"hot-drinks", price:4.20, description:"Signature house blend espresso, steamed oat milk, moon dusting of cinnamon",        tags:["vegan","gluten-free"],                   allergens:[],            featured:true  },
+  { id:5,  name:"Ceremonial Cacao",             category:"hot-drinks", price:4.80, description:"Highest-grade ceremonial cacao, oat milk, coconut sugar, pinch of chilli",          tags:["vegan","gluten-free","rare-find"],        allergens:[],            featured:false },
+  { id:6,  name:"Chaga Chai Latte",             category:"hot-drinks", price:4.50, description:"Chaga mushroom, warming spice blend, oat milk, maple syrup",                       tags:["vegan","gluten-free","adaptogen"],        allergens:[],            featured:false },
+  { id:7,  name:"Matcha Cloud",                 category:"smoothies",  price:6.00, description:"Ceremonial matcha, banana, oat milk, coconut yoghurt, spirulina boost",             tags:["vegan","gluten-free"],                   allergens:[],            featured:false },
+  { id:8,  name:"Carrot Cake Overnight Oats",   category:"breakfast",  price:7.00, description:"Certified GF oats, grated carrot, walnut crumble, cinnamon, date caramel",         tags:["vegan","gluten-free"],                   allergens:["tree-nuts"], featured:true  },
+  { id:9,  name:"Pumpkin Spiced Overnight Oats",category:"breakfast",  price:7.00, description:"GF oats, pumpkin purée, maple, nutmeg, coconut cream, pepita crunch",              tags:["vegan","gluten-free"],                   allergens:[],            featured:false },
+  { id:10, name:"Passionfruit Bircher Muesli",  category:"breakfast",  price:7.00, description:"GF oats soaked overnight, passionfruit coulis, chia seeds, coconut yoghurt",       tags:["vegan","gluten-free"],                   allergens:[],            featured:false },
+  { id:11, name:"Cacao Porridge Bowl",          category:"breakfast",  price:6.50, description:"Warm GF oats, cacao, banana, almond butter, hemp seeds",                          tags:["vegan","gluten-free"],                   allergens:["tree-nuts"], featured:true  },
+  { id:12, name:"Fresh-Pressed Green Juice",    category:"cold-drinks",price:5.50, description:"Apple, cucumber, spinach, lemon, ginger — made fresh to order",                   tags:["vegan","gluten-free","raw"],             allergens:[],            featured:false },
+  { id:13, name:"Protein Balls (x3)",           category:"snacks",     price:4.00, description:"Medjool date, cacao, almond butter, hemp protein, rolled in coconut",             tags:["vegan","gluten-free"],                   allergens:["tree-nuts"], featured:false },
+  { id:14, name:"Specialty Espresso",           category:"hot-drinks", price:3.00, description:"Single-origin specialty espresso, double or single shot",                         tags:["vegan","gluten-free"],                   allergens:[],            featured:false },
+  { id:15, name:"Superfood Booster Add-on",     category:"add-ons",    price:1.50, description:"Choose: spirulina / ashwagandha / maca / collagen / lion's mane / creatine",       tags:["customisable"],                          allergens:[],            featured:false },
+];
+
+/* ─── STATE ─── */
+let activeCategory = 'all';
+let activeFilters  = new Set();
+let searchQuery    = '';
+
+/* ─── CURSOR ─── */
+const cursorEl = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursorEl.style.left = e.clientX + 'px';
+  cursorEl.style.top  = e.clientY + 'px';
+});
+
+/* ─── STAR FIELD ─── */
+(function() {
+  const canvas = document.getElementById('star-canvas');
+  const ctx    = canvas.getContext('2d');
+  let stars = [], scrollY = 0;
+  function resize() {
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    stars = Array.from({length:70}, () => ({
+      x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+      r: Math.random() * 1.4 + 0.4,
+      a: Math.random(), sp: (Math.random() * 0.004 + 0.002) * (Math.random() < 0.5 ? 1 : -1)
+    }));
+  }
+  function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    stars.forEach(s => {
+      s.a += s.sp;
+      if (s.a >= 1 || s.a <= 0) s.sp *= -1;
+      ctx.beginPath();
+      ctx.arc(s.x, ((s.y + scrollY * 0.3) % canvas.height + canvas.height) % canvas.height, s.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(245,240,232,' + Math.max(0,Math.min(1,s.a)) + ')';
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('scroll', () => { scrollY = window.scrollY; });
+  window.addEventListener('resize', resize);
+  resize(); draw();
+  setTimeout(() => canvas.classList.add('visible'), 300);
+})();
+
+/* ─── NAVBAR ─── */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60));
+
+/* ─── MOBILE NAV ─── */
+const mobileNav = document.getElementById('mobile-nav');
+const hamburger = document.getElementById('hamburger');
+function openNav()  { mobileNav.classList.add('open');    hamburger.setAttribute('aria-expanded','true');  document.body.style.overflow='hidden'; }
+function closeNav() { mobileNav.classList.remove('open'); hamburger.setAttribute('aria-expanded','false'); document.body.style.overflow=''; }
+hamburger.addEventListener('click', openNav);
+document.getElementById('mobile-nav-close').addEventListener('click', closeNav);
+document.querySelectorAll('.mobile-link').forEach(a => a.addEventListener('click', closeNav));
+
+/* ─── GSAP HERO ─── */
+gsap.registerPlugin(ScrollTrigger);
+(function() {
+  const h = document.getElementById('hero-headline');
+  /* Split headline into word spans for stagger — content is static text, safe */
+  h.innerHTML = h.textContent.trim().split(' ').map(w => '<span class="hero-word">' + w + '</span>').join(' ');
+
+  /* Animate in order matching corrected DOM: headline → location → tagline → buttons → badge */
+  gsap.from('.hero-word',       {y:80,opacity:0,duration:1,   stagger:0.12,ease:'power4.out',delay:0.2});
+  gsap.from('.hero-location',   {y:20,opacity:0,duration:0.8, delay:0.7});
+  gsap.from('.hero-tagline',    {y:20,opacity:0,duration:0.8, delay:0.9});
+  gsap.from('.hero-btns',       {y:20,opacity:0,duration:0.8, delay:1.1});
+  gsap.from('.hours-badge',     {y:20,opacity:0,duration:0.8, delay:1.3});
+  /* Animate the wrapper — moonFloat on the inner SVG is untouched by GSAP */
+  gsap.from('.hero-moon-wrap',  {x:40,opacity:0,duration:1.2, delay:0.5,ease:'power3.out'});
+})();
+
+/* ─── SCROLLYTELLING ─── */
+document.querySelectorAll('.scrolly-panel').forEach((panel, i) => {
+  gsap.set(panel, {y:30});
+  ScrollTrigger.create({
+    trigger:     '#scrollytelling',
+    start:       (i * 33.33) + '% top',
+    end:         ((i+1) * 33.33) + '% top',
+    onEnter:     () => gsap.to(panel,{opacity:1,y:0,duration:0.7,ease:'power2.out'}),
+    onLeave:     () => gsap.to(panel,{opacity:0,y:-30,duration:0.5}),
+    onEnterBack: () => gsap.to(panel,{opacity:1,y:0,duration:0.7}),
+    onLeaveBack: () => gsap.to(panel,{opacity:0,y:30,duration:0.5}),
+  });
+});
+
+/* ─── REVEAL OBSERVER ─── */
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); } });
+}, {threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+/* ─── MENU ─── */
+function tagClass(tag) {
+  if (tag.startsWith('vegan'))       return 'tag tag-vegan';
+  if (tag === 'gluten-free')         return 'tag tag-gf';
+  if (tag === 'high-protein')        return 'tag tag-protein';
+  if (tag === 'raw')                 return 'tag tag-raw';
+  if (tag === 'adaptogen')           return 'tag tag-adapt';
+  if (tag === 'customisable')        return 'tag tag-gf';
+  return 'tag tag-other';
+}
+
+function filterItems() {
+  return menuData.filter(item => {
+    if (activeCategory !== 'all' && item.category !== activeCategory) return false;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      if (!item.name.toLowerCase().includes(q) && !item.description.toLowerCase().includes(q)) return false;
+    }
+    for (const f of activeFilters) {
+      if (!item.tags.some(t => t === f || t.startsWith(f + '-'))) return false;
+    }
+    return true;
+  });
+}
+
+function renderMenu() {
+  const grid = document.getElementById('menu-grid');
+  const items = filterItems();
+  const sorted = [...items.filter(i => i.id !== 15), ...items.filter(i => i.id === 15)];
+  grid.textContent = ''; // clear safely
+
+  if (sorted.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'menu-empty';
+    empty.textContent = '🌙 Nothing found — try a different filter';
+    grid.appendChild(empty);
+    return;
+  }
+
+  sorted.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'menu-card';
+    card.setAttribute('role','listitem');
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(12px)';
+
+    if (item.featured) {
+      const badge = document.createElement('div');
+      badge.className = 'featured-badge';
+      badge.textContent = '⭐ Luna Favourite';
+      card.appendChild(badge);
+    }
+
+    const top = document.createElement('div');
+    top.className = 'card-top';
+
+    const name = document.createElement('h3');
+    name.className = 'card-name';
+    name.textContent = item.name;
+
+    const price = document.createElement('span');
+    price.className = 'card-price';
+    price.textContent = '£' + item.price.toFixed(2);
+
+    top.appendChild(name); top.appendChild(price);
+    card.appendChild(top);
+
+    const desc = document.createElement('p');
+    desc.className = 'card-desc';
+    desc.textContent = item.description;
+    card.appendChild(desc);
+
+    const tagsDiv = document.createElement('div');
+    tagsDiv.className = 'card-tags';
+    item.tags.slice(0,4).forEach(t => {
+      const span = document.createElement('span');
+      span.className = tagClass(t);
+      span.textContent = t;
+      tagsDiv.appendChild(span);
+    });
+    card.appendChild(tagsDiv);
+
+    if (item.allergens.length) {
+      const warn = document.createElement('div');
+      warn.className = 'allergen-warn';
+      warn.textContent = '⚠ Contains: ' + item.allergens.join(', ');
+      card.appendChild(warn);
+    }
+
+    grid.appendChild(card);
+    const delay = idx * 30;
+    setTimeout(() => {
+      card.style.transition = 'opacity 0.35s ease, transform 0.35s ease, box-shadow 0.3s, border-color 0.3s, transform 0.3s';
+      card.style.opacity    = '1';
+      card.style.transform  = 'translateY(0)';
+    }, delay);
+  });
+}
+
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+    btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+    activeCategory = btn.dataset.cat;
+    renderMenu();
+  });
+});
+
+document.getElementById('menu-search').addEventListener('input', e => {
+  searchQuery = e.target.value.trim();
+  renderMenu();
+});
+
+document.getElementById('filter-toggle').addEventListener('click', function() {
+  const panel = document.getElementById('filter-panel');
+  const open = panel.classList.toggle('open');
+  this.setAttribute('aria-expanded', String(open));
+  panel.setAttribute('aria-hidden', String(!open));
+});
+
+document.querySelectorAll('.filter-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const f = chip.dataset.filter;
+    if (activeFilters.has(f)) { activeFilters.delete(f); chip.classList.remove('active'); chip.setAttribute('aria-pressed','false'); }
+    else { activeFilters.add(f); chip.classList.add('active'); chip.setAttribute('aria-pressed','true'); }
+    renderActiveChips(); renderMenu();
+  });
+});
+
+function renderActiveChips() {
+  const container = document.getElementById('active-chips');
+  container.textContent = '';
+  activeFilters.forEach(f => {
+    const chip = document.createElement('div');
+    chip.className = 'af-chip';
+    const label = document.createTextNode(f + ' ');
+    const btn   = document.createElement('button');
+    btn.setAttribute('aria-label', 'Remove ' + f + ' filter');
+    btn.textContent = '×';
+    btn.addEventListener('click', () => {
+      activeFilters.delete(f);
+      const fc = document.querySelector('.filter-chip[data-filter="' + f + '"]');
+      if (fc) { fc.classList.remove('active'); fc.setAttribute('aria-pressed','false'); }
+      renderActiveChips(); renderMenu();
+    });
+    chip.appendChild(label); chip.appendChild(btn);
+    container.appendChild(chip);
+  });
+}
+
+renderMenu();
+
+/* ─── BOOKING ─── */
+(function() {
+  const form = document.getElementById('booking-form');
+  const dateEl = document.getElementById('b-date');
+  const today = new Date();
+  dateEl.min = today.toISOString().split('T')[0];
+
+  dateEl.addEventListener('change', () => {
+    const d = new Date(dateEl.value + 'T00:00:00');
+    const ffDate = document.getElementById('ff-date');
+    if (d.getDay() === 0) { ffDate.classList.add('error'); dateEl.value = ''; }
+    else { ffDate.classList.remove('error'); }
+  });
+
+  function addBlurValidation(fieldId, inputId, testFn) {
+    document.getElementById(inputId).addEventListener('blur', () => {
+      document.getElementById(fieldId).classList.toggle('error', !testFn(document.getElementById(inputId).value));
+    });
+  }
+  addBlurValidation('ff-name',  'b-name',  v => v.trim().length > 1);
+  addBlurValidation('ff-email', 'b-email', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
+  addBlurValidation('ff-size',  'b-size',  v => v !== '');
+  addBlurValidation('ff-time',  'b-time',  v => v !== '');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const name  = document.getElementById('b-name').value.trim();
+    const email = document.getElementById('b-email').value.trim();
+    const size  = document.getElementById('b-size').value;
+    const date  = document.getElementById('b-date').value;
+    const time  = document.getElementById('b-time').value;
+    const notes = document.getElementById('b-notes').value.trim();
+    const student = document.getElementById('b-student').checked;
+
+    let valid = true;
+    if (name.length < 2)                            { document.getElementById('ff-name').classList.add('error');  valid=false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById('ff-email').classList.add('error'); valid=false; }
+    if (!size)  { document.getElementById('ff-size').classList.add('error'); valid=false; }
+    if (!date)  { document.getElementById('ff-date').classList.add('error'); valid=false; }
+    if (!time)  { document.getElementById('ff-time').classList.add('error'); valid=false; }
+    if (!valid) return;
+
+    const bookings = JSON.parse(localStorage.getItem('luna_bookings') || '[]');
+    bookings.push({ name, email, size, date, time, notes, student, id: Date.now() });
+    localStorage.setItem('luna_bookings', JSON.stringify(bookings));
+
+    const dt  = new Date(date + 'T00:00:00');
+    const df  = dt.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long'});
+    const [h, m] = time.split(':'); const hr = parseInt(h);
+    const tf  = (hr > 12 ? hr-12 : hr) + ':' + m + ' ' + (hr >= 12 ? 'pm' : 'am');
+
+    /* Build success message safely using DOM — no innerHTML with user data */
+    const msgEl = document.getElementById('success-msg');
+    msgEl.textContent = '';
+    const strong = document.createElement('strong');
+    strong.textContent = name;
+    msgEl.appendChild(strong);
+    msgEl.appendChild(document.createTextNode(', we can\'t wait to see you!\n\n📅 ' + df + ' at ' + tf + '\n👥 ' + esc(size) + ' guest' + (size !== '1' ? 's' : '') + '\n📧 Confirmation sent to '));
+    const emailSpan = document.createElement('span');
+    emailSpan.textContent = email;
+    msgEl.appendChild(emailSpan);
+    if (student) {
+      msgEl.appendChild(document.createTextNode('\n\n🎓 20% student discount — bring your ID!'));
+    }
+    msgEl.style.whiteSpace = 'pre-line';
+
+    document.getElementById('booking-success').classList.add('visible');
+    form.reset();
+  });
+
+  document.getElementById('success-close').addEventListener('click', () => document.getElementById('booking-success').classList.remove('visible'));
+
+  document.getElementById('view-bookings-btn').addEventListener('click', () => {
+    const bookings = JSON.parse(localStorage.getItem('luna_bookings') || '[]');
+    const list = document.getElementById('bookings-list');
+    list.textContent = '';
+
+    if (bookings.length === 0) {
+      const p = document.createElement('p');
+      p.className = 'no-bookings';
+      p.textContent = 'No bookings yet — make your first reservation above!';
+      list.appendChild(p);
+    } else {
+      [...bookings].reverse().forEach(b => {
+        const div = document.createElement('div');
+        div.className = 'modal-booking';
+
+        const dt = new Date(b.date + 'T00:00:00');
+        const df = dt.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+
+        const p1 = document.createElement('p');
+        const s1 = document.createElement('strong'); s1.textContent = b.name;
+        p1.appendChild(s1);
+        p1.appendChild(document.createTextNode(' — ' + b.size + ' guest' + (b.size !== '1' ? 's' : '')));
+
+        const p2 = document.createElement('p');
+        p2.textContent = '📅 ' + df + ' at ' + b.time;
+
+        const p3 = document.createElement('p');
+        p3.textContent = '📧 ' + b.email + (b.student ? ' · 🎓 Student discount' : '');
+
+        div.appendChild(p1); div.appendChild(p2); div.appendChild(p3);
+
+        if (b.notes) {
+          const p4 = document.createElement('p');
+          p4.textContent = '📝 ' + b.notes;
+          div.appendChild(p4);
+        }
+        list.appendChild(div);
+      });
+    }
+    document.getElementById('bookings-modal').classList.add('visible');
+  });
+
+  document.getElementById('modal-close').addEventListener('click', () => document.getElementById('bookings-modal').classList.remove('visible'));
+
+  document.getElementById('booking-success').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('visible'); });
+  document.getElementById('bookings-modal').addEventListener('click', function(e)  { if (e.target === this) this.classList.remove('visible'); });
+})();
+
+/* ─── LOYALTY ─── */
+(function() {
+  const KEY = 'luna_loyalty';
+  const getState = () => { try { return {...{stamps:0,history:[]}, ...JSON.parse(localStorage.getItem(KEY))}; } catch { return {stamps:0,history:[]}; } };
+  const saveState = s => localStorage.setItem(KEY, JSON.stringify(s));
+  const genCode   = () => Math.random().toString(36).substring(2,8).toUpperCase();
+
+  function renderStamps() {
+    const state  = getState();
+    const grid   = document.getElementById('stamps-grid');
+    const count  = document.getElementById('loyalty-count');
+    const banner = document.getElementById('reward-banner');
+
+    grid.textContent = '';
+    for (let i = 0; i < 10; i++) {
+      const s = document.createElement('div');
+      s.className = 'stamp' + (i < state.stamps ? ' earned' : '');
+      s.setAttribute('role','listitem');
+      s.setAttribute('aria-label', i < state.stamps ? 'Stamp earned' : 'Stamp not yet earned');
+      /* SVG built with DOM to avoid innerHTML */
+      const svg  = document.createElementNS('http://www.w3.org/2000/svg','svg');
+      svg.setAttribute('viewBox','0 0 24 24');
+      svg.setAttribute('aria-hidden','true');
+      const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d','M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z');
+      path.setAttribute('fill',   i < state.stamps ? '#C9A96E' : 'none');
+      path.setAttribute('stroke', '#C9A96E'); path.setAttribute('stroke-width','1.5');
+      svg.appendChild(path); s.appendChild(svg);
+      grid.appendChild(s);
+    }
+
+    const rem = 10 - state.stamps;
+    count.textContent = state.stamps === 0
+      ? 'Start collecting your stamps!'
+      : state.stamps >= 10
+        ? '🎉 Card complete!'
+        : 'You have ' + state.stamps + ' stamp' + (state.stamps !== 1 ? 's' : '') + ' — ' + rem + ' more for a free drink!';
+    banner.classList.toggle('show', state.stamps >= 10);
+  }
+
+  function renderHistory() {
+    const state = getState();
+    const el = document.getElementById('rewards-history');
+    el.textContent = '';
+    if (!state.history || state.history.length === 0) return;
+
+    const h4 = document.createElement('h4');
+    h4.style.cssText = 'font-family:var(--font-d);font-size:1.2rem;margin-bottom:0.75rem;color:var(--navy)';
+    h4.textContent = 'Rewards History';
+    el.appendChild(h4);
+
+    state.history.forEach(h => {
+      const item = document.createElement('div');
+      item.className = 'history-item';
+      item.appendChild(document.createTextNode('🌙 Free drink redeemed ' + h.date + ' '));
+      const vc = document.createElement('span');
+      vc.className = 'voucher-mini';
+      vc.textContent = h.code;
+      item.appendChild(vc);
+      el.appendChild(item);
+    });
+  }
+
+  document.getElementById('add-stamp-btn').addEventListener('click', () => {
+    const state = getState();
+    if (state.stamps >= 10) return;
+    state.stamps++;
+    saveState(state);
+    renderStamps();
+
+    const newStamp = document.querySelectorAll('.stamp')[state.stamps - 1];
+    if (newStamp) { newStamp.classList.add('new-stamp'); }
+
+    if (state.stamps >= 10) {
+      const code = genCode();
+      document.getElementById('voucher-code').textContent = code;
+      confetti({particleCount:120, spread:80, origin:{y:0.6}, colors:['#C9A96E','#8BA888','#E8C5B0','#F5F0E8']});
+      setTimeout(() => confetti({particleCount:60,spread:100,origin:{y:0.5},colors:['#C9A96E','#D4B87A']}), 400);
+      setTimeout(() => {
+        const s2 = getState();
+        s2.stamps = 0;
+        s2.history = [{code, date: new Date().toLocaleDateString('en-GB')}, ...(s2.history || [])];
+        saveState(s2); renderStamps(); renderHistory();
+      }, 4000);
+    }
+  });
+
+  document.getElementById('loyalty-reset-btn').addEventListener('click', () => {
+    if (confirm('Reset your loyalty card? This will clear all stamps.')) {
+      localStorage.removeItem(KEY); renderStamps(); renderHistory();
+    }
+  });
+
+  renderStamps(); renderHistory();
+})();
+
+/* ─── REVIEWS CAROUSEL ─── */
+(function() {
+  const reviews = [
+    {quote:"Honestly the most beautiful place. The smoothies have a beautiful vibration that resets you.",    author:"Regular at Luna"},
+    {quote:"Everything is gluten free, so fresh, and the staff make you feel so welcome — total hidden gem.", author:"Google Review"},
+    {quote:"The cacao porridge bowl is a must. Prices are so reasonable for the quality.",                   author:"Google Review"},
+    {quote:"I'm in love with the matcha and addicted to the protein balls. Ceremonial cacao is a rare find.",author:"Instagram fan"},
+    {quote:"Came all the way from Plymouth after seeing a TikTok — it exceeded every expectation.",          author:"TikTok visitor"},
+    {quote:"The Luna Latte was so warming and the açaí bowl is a perfect size. Total 10/10.",               author:"Google Review"},
+  ];
+
+  const track = document.getElementById('reviews-track');
+  const dots  = document.getElementById('carousel-dots');
+  let current = 0, timer;
+
+  reviews.forEach((r, i) => {
+    const card = document.createElement('div');
+    card.className = 'review-card';
+    card.setAttribute('role','listitem');
+
+    const stars = document.createElement('div');
+    stars.className = 'review-stars';
+    stars.setAttribute('aria-label','5 stars');
+    stars.textContent = '★★★★★';
+
+    const quote = document.createElement('blockquote');
+    quote.className = 'review-quote';
+    quote.textContent = '“' + r.quote + '”';
+
+    const author = document.createElement('p');
+    author.className = 'review-author';
+    author.textContent = '— ' + r.author;
+
+    card.appendChild(stars); card.appendChild(quote); card.appendChild(author);
+    track.appendChild(card);
+
+    const dot = document.createElement('button');
+    dot.className = 'c-dot' + (i===0 ? ' active' : '');
+    dot.setAttribute('aria-label','Review ' + (i+1));
+    dot.setAttribute('role','tab');
+    dot.addEventListener('click', () => goTo(i));
+    dots.appendChild(dot);
+  });
+
+  function goTo(i) {
+    current = i;
+    const w = (track.querySelector('.review-card').offsetWidth || 340) + 24;
+    track.scrollTo({left: i * w, behavior:'smooth'});
+    dots.querySelectorAll('.c-dot').forEach((d,j) => d.classList.toggle('active', j===i));
+  }
+
+  const start = () => { timer = setInterval(() => goTo((current+1) % reviews.length), 4000); };
+  const stop  = () => clearInterval(timer);
+  track.addEventListener('mouseenter', stop);  track.addEventListener('mouseleave', start);
+  track.addEventListener('touchstart',  stop, {passive:true}); track.addEventListener('touchend', start, {passive:true});
+  start();
+})();
+</script>
+</body>
+</html>

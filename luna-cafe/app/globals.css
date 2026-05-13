@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/* ---------- Coffee-Chic theme tokens ---------- */
+@theme {
+  /* Colour palette */
+  --color-cream: #f5f5f5;
+  --color-cream-50: #fbfaf7;
+  --color-cream-100: #f5f5f5;
+  --color-cream-200: #ebe9e1;
+  --color-charcoal: #2c2c2c;
+  --color-charcoal-soft: #4a4a4a;
+  --color-charcoal-muted: #6e6e6e;
+  --color-tan: #d4a373;
+  --color-tan-light: #e6c2a0;
+  --color-tan-dark: #a67e5c;
+  --color-tan-deep: #7a5a3e;
+
+  /* Fonts (loaded via next/font in app/layout.tsx) */
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+
+  /* Easings */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Base ---------- */
+html {
+  scroll-behavior: smooth;
+  /* enable subpixel font smoothing */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  /* Subtle paper-grain background to lift the cream */
+  background-image:
+    radial-gradient(at 20% 20%, rgba(212, 163, 115, 0.04), transparent 50%),
+    radial-gradient(at 80% 80%, rgba(44, 44, 44, 0.025), transparent 50%);
+}
+
+/* Selection colour */
+::selection {
+  background-color: var(--color-tan);
+  color: var(--color-cream);
+}
+
+/* Focus ring tuned to the palette */
+:focus-visible {
+  outline: 2px solid var(--color-tan);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Custom scrollbar */
+@media (pointer: fine) {
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--color-cream); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-tan-dark);
+    border-radius: 100px;
+    border: 2px solid var(--color-cream);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-charcoal-soft); }
+}
+
+/* ---------- Type utilities ---------- */
+.font-display { font-family: var(--font-display), "Fraunces", Georgia, serif; }
+.font-sans    { font-family: var(--font-sans), "Inter", system-ui, sans-serif; }
+
+/* Tiny utility for the eyebrow / kicker labels used in sections */
+.eyebrow {
+  font-family: var(--font-sans), "Inter", sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-tan-dark);
+  font-weight: 500;
+}
